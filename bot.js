@@ -72,3 +72,15 @@ bot.onText(/\/nim (.*)/, (msg, match) => {
 	
 
 });
+
+
+bot.onText(/\/cheat (.*)/, (msg, match) => {
+	const chatId = msg.chat.id;
+	var resp = 'citer bocah ampas';
+
+	var nums = match[1].split(' ');
+	console.log(nums);
+
+
+	bot.sendMessage(chatId, resp);
+});
