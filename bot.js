@@ -1,7 +1,7 @@
 #! /usr/bin/node
 
 const TelegramBot = require('node-telegram-bot-api');
-const token = 'your token';
+const token = process.env.TBTOKEN;
 const axios = require('axios');
 
 const bot = new TelegramBot(token, {polling: true});
