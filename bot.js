@@ -21,7 +21,7 @@ bot.onText(/\/fuck/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const resp = 'I know right';
 
-	bot.sendMessage(chatId, msg);
+	bot.sendMessage(chatId, resp);
 })
 
 
