@@ -76,11 +76,21 @@ bot.onText(/\/nim (.*)/, (msg, match) => {
 
 bot.onText(/\/cheat (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
-	var resp = 'citer bocah ampas';
+	var resp = '';
 
 	var nums = match[1].split(' ');
-	console.log(nums);
+	// console.log(nums);
+	axios.get(`http://aryuuu.ninja/24solver/${nums[0]}/${nums[1]}/${nums[2]}/${nums[3]}`)
+	.then((res) => {
+		let d = res.data;
+		resp += `${d.message}\n`;
+		resp += `${d.count === 0?'':d.data[0]}`;
 
+		bot.sendMessage(chatId, resp);
+	})
+	.catch((err) => {
+		console.log(err)
+	})
 
-	bot.sendMessage(chatId, resp);
+	
 });
