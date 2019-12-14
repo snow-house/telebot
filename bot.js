@@ -43,7 +43,7 @@ bot.onText(/\/nim (.*)/, (msg, match) => {
 
 	console.log(`someone wants to findout who is ${match[1]}`);
 
-	axios.get(`http://aryuuu.ninja:6969/nims/${match[1]}`)
+	axios.get(`http://aryuuu.ninja:6969/get/nim/${match[1]}`)
 	.then((res) => {
 		if (res.data.count === 0) {
 			resp = res.data.message;
@@ -80,7 +80,7 @@ bot.onText(/\/cheat (.*)/, (msg, match) => {
 
 	var nums = match[1].split(' ');
 	// console.log(nums);
-	axios.get(`http://aryuuu.ninja/24solver/${nums[0]}/${nums[1]}/${nums[2]}/${nums[3]}`)
+	axios.get(`http://aryuuu.ninja:6969/24solver/${nums[0]}/${nums[1]}/${nums[2]}/${nums[3]}`)
 	.then((res) => {
 		let d = res.data;
 		resp += `${d.message}\n`;
