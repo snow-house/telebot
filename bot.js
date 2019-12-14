@@ -10,8 +10,11 @@ bot.onText(/\/help/, (msg, match) => {
 
 	const chatId = msg.chat.id;
 	const resp = `Help
-	- /nim [name||[nim], itb nim finder
-	- /echo [msg], echo.. literally`;
+	- /nim [query], itb nim finder
+	- /echo [msg], echo.. literally
+	- /whoami , shows who you really are
+	- /cheat [card] [card] [card] [card] , cheat in 24 solver`;
+
 
 	bot.sendMessage(chatId, resp);
 
@@ -19,7 +22,8 @@ bot.onText(/\/help/, (msg, match) => {
 
 bot.onText(/\/fuck (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
-	const resp = 'I know right';
+	var respList = ['I know right', `yeah, fuck ${match[1]}`, 'damn right']
+	const resp = respList[Math.floor(Math.random()*(respList.length))];
 
 	bot.sendMessage(chatId, resp);
 });
@@ -28,9 +32,23 @@ bot.onText(/\/fuck (.*)/, (msg, match) => {
 bot.onText(/\/echo (.*)/, (msg, match) => {
 
 	const chatId = msg.chat.id;
+	console.log(msg)
 	const resp = match[1];
 
 	console.log(`someone said to me ${resp}`);
+
+	bot.sendMessage(chatId, resp);
+
+});
+
+bot.onText(/\/whoami/, (msg, match) => {
+
+	const chatId = msg.chat.id;
+	const userId = msg.from.id;
+	const username = msg.from.username;
+	const firstname = msg.from.first_name;
+
+	const resp = `you are user ${userId} @${username} or should i call you ${firstname}`
 
 	bot.sendMessage(chatId, resp);
 
@@ -61,7 +79,9 @@ bot.onText(/\/nim (.*)/, (msg, match) => {
 				resp += `${nama} ${tpb} ${s1 !='NULL'?s1:''} ${fakultas} ${jurusan}\n`
 			}
 		}
-		resp += `to show more use /nim -a [name]||[nim]`;
+		if (res.data.count > 10) {
+			resp += `\nto show more use /nim -a [query]`;
+		}
 
 		bot.sendMessage(chatId, resp);
 	})
