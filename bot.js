@@ -212,9 +212,6 @@ bot.onText(/\/tag (.*)/, (msg, match) => {
 				if (err) {
 					bot.sendMessage(chatId, internalError);
 				} else if (results.length) {
-					
-					console.log(results);
-					bot.sendMessage(chatId, "showing tag, be amazed");
 					bot.sendPhoto(chatId, results[0].link);
 					
 				} else {
@@ -258,7 +255,7 @@ bot.onText(/\/taglist/, (msg, match) => {
 	const chatId = msg.chat.id;
 	var resp = "";
 
-	dbConn.query("SELECT tag_name FROM tags", (err, results, field) => {
+	dbConn.query("SELECT * FROM tags", (err, results, field) => {
 		if (err) {
 			bot.sendMessage(chatId, internalError);
 		} else {
