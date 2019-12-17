@@ -151,7 +151,7 @@ bot.onText(/\/showevent (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const event_owner = msg.from.id;
 
-	if (match[1].match(/\b-p\b/)) {
+	if (match[1].match(/\s-p\s/)) {
 
 		dbConn.query("SELECT event_name, event_time FROM event WHERE event_owner = ?", event_ownner, 
 			(err, results, field) => {
@@ -213,7 +213,7 @@ bot.onText(/\/addevent (.*)/, (msg, match) => {
 
 	} else {
 		// check for private flag
-		if (match[1].match(/\b-p\b/)) {
+		if (match[1].match(/\s-p\s/)) {
 			event_owner = msg.from.id;
 			event_detail = event_detail.replace(/-p/,"").trim()
 
