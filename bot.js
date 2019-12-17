@@ -259,10 +259,9 @@ bot.onText(/\/taglist/, (msg, match) => {
 		if (err) {
 			bot.sendMessage(chatId, internalError);
 		} else {
-			console.log(results);
 
 			results.forEach(r => {
-				resp += `${r.link},`
+				resp += `${r.tag_name},`
 			})
 			resp = resp.replace(/,$/, "");
 
