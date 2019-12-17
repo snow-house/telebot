@@ -153,7 +153,7 @@ bot.onText(/\/showevent (.*)/, (msg, match) => {
 
 	if (match[1].match(/-p/)) {
 
-		dbConn.query("SELECT event_name, event_time FROM event WHERE event_owner = ?", event_ownner, 
+		dbConn.query("SELECT * FROM event WHERE event_owner = ?", event_ownner, 
 			(err, results, field) => {
 				if (err) {
 					bot.sendMessage(chatId, internalError);
@@ -172,7 +172,7 @@ bot.onText(/\/showevent (.*)/, (msg, match) => {
 
 	} else {
 
-		dbConn.query("SELECT event_name, event_time FROM event WHERE event_owner = ?", "PUBLIC",
+		dbConn.query("SELECT * FROM event WHERE event_owner = ?", "PUBLIC",
 			(err, results, field) => {
 				if (err) {
 					bot.sendMessage(chatId, internalError);
