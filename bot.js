@@ -226,6 +226,7 @@ bot.onText(/\/addevent (.*)/, (msg, match) => {
 		dbConn.query("INSERT INTO event (event_name, event_time) VALUES (?, ?)", [event_name, event_time],
 			(err, results, field) => {
 				if (err) {
+					console.log(err)
 					bot.sendMessage(chatId, internalError);
 				} else {
 					bot.sendMessage(chatId, `event '${event_name}' successfully added`);
