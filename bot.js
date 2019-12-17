@@ -153,7 +153,7 @@ bot.onText(/\/showevent (.*)/, (msg, match) => {
 
 	if (match[1].match(/\b-p\b/)) {
 
-		dbConn.query("SELECT event_name, event_time FROM event WHERE event_owner = ?", event_onwner, 
+		dbConn.query("SELECT event_name, event_time FROM event WHERE event_owner = ?", event_ownner, 
 			(err, results, field) => {
 				if (err) {
 					bot.sendMessage(chatId, internalError);
@@ -223,7 +223,7 @@ bot.onText(/\/addevent (.*)/, (msg, match) => {
 		var event_name = event_detail.replace(datetimere, "").trim();
 		var event_time = event_detail.match(datetimere)[0];
 
-		dbConn.query("INSERT INTO event (event_name, event_time) VALUES (?, ?)", [event_name, event_time],
+		dbConn.query("INSERT INTO event (event_name, event_time, event_owner) VALUES (?, ?, ?)", [event_name, event_time, event_owner],
 			(err, results, field) => {
 				if (err) {
 					console.log(err)
