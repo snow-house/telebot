@@ -183,7 +183,7 @@ bot.onText(/\/showevent (.*)/, (msg, match) => {
 						resp += `${r.event_name} ${r.event_time}\n`;
 					});
 
-					bot.sendMessage(chatId, "showing events...");
+					bot.sendMessage(chatId, resp);
 				} else {
 					bot.sendMessage(chatId, "no events found");
 				}
