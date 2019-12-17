@@ -256,13 +256,20 @@ bot.onText(/\/addTag (.*)/, (msg, match) => {
 bot.onText(/\/tagList/, (msg, match) => {
 
 	const chatId = msg.chat.id;
+	var resp = "";
 
 	dbConn.query("SELECT tag_name FROM tags", (err, results, field) => {
 		if (err) {
 			bot.sendMessage(chatId, internalError);
 		} else {
 			console.log(results);
-			bot.sendMessage("showing tags");
+
+			results.forEach(r => {
+				resp += `${r.link},`
+			})
+			resp = resp.replace(/,$/, "");
+
+			bot.sendMessage(chatId, resp);
 		}
 	});	
 
