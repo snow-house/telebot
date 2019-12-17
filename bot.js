@@ -36,7 +36,14 @@ bot.onText(/\/help/, (msg, match) => {
 	- /nim [query], itb nim finder
 	- /echo [msg], echo.. literally
 	- /whoami , shows who you really are
-	- /cheat [card] [card] [card] [card] , cheat in 24 solver`;
+	- /cheat [card] [card] [card] [card] , cheat in 24 solver
+	- /tag [tag_name], show tagged image
+	- /addtag [tag_name] [link], tag an image
+	- /taglist, show all tags,
+	- /deletetag [tag_name], delete tag
+	- /showevent [-p || -g], show events, use flag -p to show your private event and -g for global
+	- /addevent [event_name] [event_time], add event
+	`;
 
 
 	bot.sendMessage(chatId, resp);
