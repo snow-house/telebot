@@ -55,14 +55,13 @@ bot.onText(/\/fuck (.*)/, (msg, match) => {
 bot.onText(/\/echo (.*)/, (msg, match) => {
 
 	const chatId = msg.chat.id;
-	console.log(msg)
 	const resp = match[1];
-
-	console.log(`someone said to me ${resp}`);
-
+	
 	bot.sendMessage(chatId, resp);
 
 });
+	
+
 
 bot.onText(/\/whoami/, (msg, match) => {
 
@@ -240,6 +239,7 @@ bot.onText(/\/addTag (.*)/, (msg, match) => {
 		dbConn.query("INSERT INTO telebot SET (tag_name, link) VALUES (?, ?)", [tag_name, link],
 			(err, results, field) => {
 				if (err) {
+					console.log(err)
 					bot.sendMessage(chatId, internalError);
 				} else {
 					bot.sendMessage(chatId, `tag '${tag_name}' created`);
