@@ -236,7 +236,7 @@ bot.onText(/\/addTag (.*)/, (msg, match) => {
 	const link = query[1];
 
 	if (tag_name && link) {
-		dbConn.query("INSERT INTO telebot SET (tag_id, tag_name, link) VALUES (NULL, ?, ?)", [tag_name, link],
+		dbConn.query("INSERT INTO tags SET (tag_name, link) VALUES (?, ?)", [tag_name, link],
 			(err, results, field) => {
 				if (err) {
 					console.log(err)
