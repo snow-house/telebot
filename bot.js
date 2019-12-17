@@ -140,7 +140,7 @@ bot.onText(/\/cheat (.*)/, (msg, match) => {
 });
 
 
-bot.onText(/\/showEvent (.*)/, (msg, match) => {
+bot.onText(/\/showevent (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const event_owner = msg.from.id;
 
@@ -160,7 +160,7 @@ bot.onText(/\/showEvent (.*)/, (msg, match) => {
 });
 
 
-bot.onText(/\/addEvent (.*)/, (msg, match) => {
+bot.onText(/\/addevent (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const datetimere = /\d{4}(-\d\d){2} \d\d(:\d\d){2}/;
 
@@ -207,7 +207,7 @@ bot.onText(/\/tag (.*)/, (msg, match) => {
 	const tag_name = match[1];
 
 	if (tag_name) {
-		dbConn.query("SELECT link FROM tags WHERE tag_name = ?", tag_name, 
+		dbConn.query("SELECT * FROM tags WHERE tag_name = ?", tag_name, 
 			(err, results, field) => {
 				if (err) {
 					bot.sendMessage(chatId, internalError);
@@ -215,7 +215,7 @@ bot.onText(/\/tag (.*)/, (msg, match) => {
 					
 					console.log(results);
 					bot.sendMessage(chatId, "showing tag, be amazed");
-					// bot.sendPhoto(chatId, results[0].link);
+					bot.sendPhoto(chatId, results[0].link);
 					
 				} else {
 					bot.sendMessage(chatId,`tag '${tag_name}' not found :(`);
@@ -229,7 +229,7 @@ bot.onText(/\/tag (.*)/, (msg, match) => {
 });
 
 
-bot.onText(/\/addTag (.*)/, (msg, match) => {
+bot.onText(/\/addtag (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const query = match[1].split(" ");
 	const tag_name = query[0];
@@ -253,7 +253,7 @@ bot.onText(/\/addTag (.*)/, (msg, match) => {
 });
 
 
-bot.onText(/\/tagList/, (msg, match) => {
+bot.onText(/\/taglist/, (msg, match) => {
 
 	const chatId = msg.chat.id;
 	var resp = "";
