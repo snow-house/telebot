@@ -19,6 +19,7 @@
   "homepage": "https://github.com/aryuuu/telebot#readme",
   "dependencies": {
     "axios": "^0.19.0",
+    "mysql": "^2.17.1",
     "node-telegram-bot-api": "^0.40.0"
   }
 }

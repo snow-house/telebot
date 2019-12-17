@@ -1,10 +1,33 @@
 #! /usr/bin/node
 
+// imports
 const TelegramBot = require('node-telegram-bot-api');
-const token = process.env.TBTOKEN;
 const axios = require('axios');
+const mysql = require('mysql');
 
+// env
+const token = process.env.TBTOKEN;
+const dbuser = process.env.TBDBUSER;
+const dbpwd = process.env.TBDBPWD;
+const dbname = process.env.TBDB;
+
+// constants
+const internalError = "Something went wrong :("
+
+
+// bot and db setup 
 const bot = new TelegramBot(token, {polling: true});
+
+const dbConn = new mysql.createConnection({
+	host: "localhost",
+	user: dbuser,
+	password: dbpwd,
+	database: dbname
+});
+
+dbConn.connect();
+
+// actual features
 
 bot.onText(/\/help/, (msg, match) => {
 
@@ -48,7 +71,7 @@ bot.onText(/\/whoami/, (msg, match) => {
 	const username = msg.from.username;
 	const firstname = msg.from.first_name;
 
-	const resp = `you are user ${userId} @${username} or should i call you ${firstname}`
+	const resp = `you are user ${userId} @${username} or should i call you ${firstname}`;
 
 	bot.sendMessage(chatId, resp);
 
@@ -59,7 +82,7 @@ bot.onText(/\/nim (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	var resp = '';
 
-	console.log(`someone wants to findout who is ${match[1]}`);
+	// console.log(`someone wants to findout who is ${match[1]}`);
 
 	axios.get(`http://aryuuu.ninja:6969/get/nim/${match[1]}`)
 	.then((res) => {
@@ -79,7 +102,7 @@ bot.onText(/\/nim (.*)/, (msg, match) => {
 				resp += `${nama} ${tpb} ${s1 !='NULL'?s1:''} ${fakultas} ${jurusan}\n`
 			}
 		}
-		if (res.data.count > 10) {
+		if (res.data.count > 10 || res.data.count === 0) {
 			resp += `\nto show more use /nim -a [query]`;
 		}
 
@@ -87,6 +110,7 @@ bot.onText(/\/nim (.*)/, (msg, match) => {
 	})
 	.catch((err) => {
 		console.log(err);
+		bot.sendMessage(chatId, internalError);
 	});
 
 	
@@ -110,7 +134,138 @@ bot.onText(/\/cheat (.*)/, (msg, match) => {
 	})
 	.catch((err) => {
 		console.log(err)
+		bot.sendMessage(chatId, internalError);
 	})
 
 	
 });
+
+
+bot.onText(/\/showEvent (.*)/, (msg, match) => {
+	const chatId = msg.chat.id;
+	const event_owner = msg.from.id;
+
+	dbConn.query("SELECT event_name, event_time FROM event WHERE (event_owner = ? OR event_owner = ?)", ["PUBLIC", event_owner],
+		(err, results, field) => {
+			if (err) {
+				bot.sendMessage(chatId, internalError);
+			} else if (results.length) {
+				console.log(results);
+				bot.sendMessage(chatId, "showing events...");
+			} else {
+				bot.sendMessage(chatId, "no events found");
+			}
+		});
+
+
+});
+
+
+bot.onText(/\/addEvent (.*)/, (msg, match) => {
+	const chatId = msg.chat.id;
+	const datetimere = /\d{4}(-\d\d){2} \d\d(:\d\d){2}/;
+
+	var event_owner = "PUBLIC";
+	var event_detail = match[1];
+
+	// validate event to be input
+	if (match[1].split(" ").length < 3){
+		
+		bot.sendMessage(chatId, "Usage: /addEvent [event_name] [event_time], use flag -p to make it private");
+	
+	} else if (!match[1].match(datetimere)) {	
+		
+		bot.sendMessage(chatId, `event_time format 'YYYY-MM-DD HH:MM:SS'`);
+
+	} else {
+		// check for private flag
+		if match[1].match(/-p/) {
+			event_owner = msg.from.id;
+			event_detail = event_detail.replace(/-p/,"").trim()
+
+		}
+	
+		// get event name and time
+		var event_name = event_detail.replace(datetimere, "").trim();
+		var event_time = event_detail.match(datetimere)[0];
+
+		dbConn.query("INSERT INTO event (event_name, event_time) VALUES (?, ?)", [event_name, event_time],
+			(err, results, field) => {
+				if (err) {
+					bot.sendMessage(chatId, internalError);
+				} else {
+					bot.sendMessage(chatId, `event '${event_name}' successfully added`);
+				}
+			});
+	}
+});
+
+
+
+
+bot.onText(/\/tag (.*)/, (msg, match) => {
+	const chatId = msg.chat.id;
+	const tag_name = match[1];
+
+	if (tag_name) {
+		dbConn.query("SELECT link FROM tags WHERE tag_name = ?", tag_name, 
+			(err, results, field) => {
+				if (err) {
+					bot.sendMessage(chatId, internalError);
+				} else if (results.length) {
+					
+					console.log(results);
+					bot.sendMessage(chatId, "showing tag, be amazed");
+					// bot.sendPhoto(chatId, results[0].link);
+					
+				} else {
+					bot.sendMessage(chatId,`tag '${tag_name}' not found :(`);
+				}
+		});
+	} else {
+		bot.sendMessage(chatId, "Usage: /tag [tag_name]");
+	}
+
+
+});
+
+
+bot.onText(/\/addTag (.*)/, (msg, match) => {
+	const chatId = msg.chat.id;
+	const query = match[1].split(" ");
+	const tag_name = query[0];
+	const link = query[1];
+
+	if (tag_name && link) {
+		dbConn.query("INSERT INTO telebot SET (tag_name, link) VALUES (?, ?)", [tag_name, link],
+			(err, results, field) => {
+				if (err) {
+					bot.sendMessage(chatId, internalError);
+				} else {
+					bot.sendMessage(chatId, `tag '${tag_name}' created`);
+				}
+			});
+	} else {
+		bot.sendMessage(chatId, "Usage: /addTag [tag_name] [link]");
+	}
+
+
+});
+
+
+bot.onText(/\/tagList/, (msg, match) => {
+
+	const chatId = msg.chat.id;
+
+	dbConn.query("SELECT tag_name FROM tags", (err, results, field) => {
+		if (err) {
+			bot.sendMessage(chatId, internalError);
+		} else {
+			console.log(results);
+			bot.sendMessage("showing tags");
+		}
+	});	
+
+
+});
+
