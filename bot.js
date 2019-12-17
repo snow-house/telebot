@@ -144,17 +144,45 @@ bot.onText(/\/showevent (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const event_owner = msg.from.id;
 
-	dbConn.query("SELECT event_name, event_time FROM event WHERE (event_owner = ? OR event_owner = ?)", ["PUBLIC", event_owner],
-		(err, results, field) => {
-			if (err) {
-				bot.sendMessage(chatId, internalError);
-			} else if (results.length) {
-				console.log(results);
-				bot.sendMessage(chatId, "showing events...");
-			} else {
-				bot.sendMessage(chatId, "no events found");
-			}
-		});
+	if (match[1].match(/\b-p\b/)) {
+
+		dbConn.query("SELECT event_name, event_time FROM event WHERE event_owner = ?", event_onwner, 
+			(err, results, field) => {
+				if (err) {
+					bot.sendMessage(chatId, internalError);
+				} else if (results.length) {
+					var resp = "";
+
+					results.forEach(r => {
+						resp += `${r.event_name} ${r.event_time}\n`;
+					});
+
+					bot.sendMessage(chatId, resp);
+				} else {
+					bot.sendMessage(chatId, "no events found");
+				}
+			});
+
+	} else {
+
+		dbConn.query("SELECT event_name, event_time FROM event WHERE event_owner = ?", "PUBLIC",
+			(err, results, field) => {
+				if (err) {
+					bot.sendMessage(chatId, internalError);
+				} else if (results.length) {
+					console.log(results);
+					var resp = "";
+					results.forEach(r => {
+						resp += `${r.event_name} ${r.event_time}\n`;
+					});
+
+					bot.sendMessage(chatId, "showing events...");
+				} else {
+					bot.sendMessage(chatId, "no events found");
+				}
+			});
+
+	}
 
 
 });
@@ -178,7 +206,7 @@ bot.onText(/\/addevent (.*)/, (msg, match) => {
 
 	} else {
 		// check for private flag
-		if (match[1].match(/-p/)) {
+		if (match[1].match(/\b-p\b/)) {
 			event_owner = msg.from.id;
 			event_detail = event_detail.replace(/-p/,"").trim()
 
@@ -246,6 +274,27 @@ bot.onText(/\/addtag (.*)/, (msg, match) => {
 		bot.sendMessage(chatId, "Usage: /addTag [tag_name] [link]");
 	}
 
+
+});
+
+
+bot.onText(/\/deletetag (.*)/, (msg, match) => {
+	const chatId = msg.chat.id;
+
+	if (!match[1]) {
+		bot.sendMessage(chatId, "Usage: /deletetag [tag_name]");
+	} else {
+
+		dbConn.query("DELETE FROM tags WHERE tag_name = ?", match[1],
+			(err, results, field) => {
+				if (err) {
+					bot.sendMessage(chatId, internalError);
+				} else {
+					bot.sendMessage(chatId, `tag '${match[1]}' deleted`);
+				}
+			}
+			);
+	}
 
 });
 
