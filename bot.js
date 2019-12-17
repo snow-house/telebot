@@ -179,7 +179,7 @@ bot.onText(/\/addEvent (.*)/, (msg, match) => {
 
 	} else {
 		// check for private flag
-		if match[1].match(/-p/) {
+		if (match[1].match(/-p/)) {
 			event_owner = msg.from.id;
 			event_detail = event_detail.replace(/-p/,"").trim()
 
