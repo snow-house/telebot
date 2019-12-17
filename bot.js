@@ -153,7 +153,7 @@ bot.onText(/\/showevent (.*)/, (msg, match) => {
 
 	if (match[1].match(/-p/)) {
 
-		dbConn.query("SELECT * FROM event WHERE event_owner = ?", event_ownner, 
+		dbConn.query("SELECT * FROM event WHERE event_owner = ?", event_owner, 
 			(err, results, field) => {
 				if (err) {
 					bot.sendMessage(chatId, internalError);
