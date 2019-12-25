@@ -375,7 +375,7 @@ bot.onText(/\/taglist/, (msg, match) => {
 
 bot.onText(/\/random/, (msg, match) => {
 	const chatId = msg.chat.id;
-	console.log("release the memes");
+	// console.log("release the memes");
 
 	var posts = [];
 	snoo.getSubreddit("dankmemes")
@@ -390,7 +390,7 @@ bot.onText(/\/random/, (msg, match) => {
 			// console.log(post.title);
 			// bot.sendMessage(post.title);
 		})
-		console.log(posts);
+		// console.log(posts);
 		let postIdx = Math.floor(Math.random()*100);
 		bot.sendMessage(chatId, posts[postIdx].text);
 		bot.sendPhoto(chatId, posts[postIdx].link);
