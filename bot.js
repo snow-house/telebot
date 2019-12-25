@@ -4,12 +4,18 @@
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const mysql = require('mysql');
+const snoowrap = require('snoowrap');
+
 
 // env
 const token = process.env.TBTOKEN;
 const dbuser = process.env.TBDBUSER;
 const dbpwd = process.env.TBDBPWD;
 const dbname = process.env.TBDB;
+const REDDITCLIENTID = process.env.REDDITCLIENTID;
+const REDDITCLIENTSECRET = process.env.REDDITCLIENTSECRET;
+const REDDITREFRESHTOKEN = process.env.REDDITREFRESHTOKEN;
+
 
 // constants
 const internalError = "Something went wrong :("
@@ -27,6 +33,36 @@ const dbConn = new mysql.createConnection({
 
 dbConn.connect();
 
+async function scrapeSubreddit() {
+
+	const r = new snoowrap({
+			userAgent : "fatt",
+			clientId : REDDITCLIENTID,
+			clientSecret : REDDITCLIENTSECRET,
+			refreshToken : REDDITREFRESHTOKEN
+	});
+	
+	var subreddit = await r.getSubreddit("dankmemes");
+	var topPosts = await subreddit.getTop({time: "day", limit: 100});
+	
+``	let data = [];
+
+	topPosts.forEach(post => {
+			
+			data.push({
+				text: post.title,
+				link: post.url
+			})
+	});
+	// console.log(data);
+	return data
+}
+
+
+
+
+
+
 // actual features
 
 bot.onText(/\/help/, (msg, match) => {
@@ -43,6 +79,7 @@ bot.onText(/\/help/, (msg, match) => {
 	- /deletetag [tag_name], delete tag
 	- /showevent [-p || -g], show events, use flag -p to show your private event and -g for global
 	- /addevent [event_name] [event_time], add event
+	- /random , get a random meme from r/dankmemes
 	`;
 
 
@@ -205,7 +242,7 @@ bot.onText(/\/addevent (.*)/, (msg, match) => {
 	// validate event to be input
 	if (match[1].split(" ").length < 3){
 		
-		bot.sendMessage(chatId, "Usage: /addEvent [event_name] [event_time], use flag -p to make it private");
+		bot.sendMessage(chatId, "Usage: /addevent [event_name] [event_time], use flag -p to make it private");
 	
 	} else if (!match[1].match(datetimere)) {	
 		
@@ -279,7 +316,7 @@ bot.onText(/\/addtag (.*)/, (msg, match) => {
 				}
 			});
 	} else {
-		bot.sendMessage(chatId, "Usage: /addTag [tag_name] [link]");
+		bot.sendMessage(chatId, "Usage: /addtag [tag_name] [link]");
 	}
 
 
@@ -329,3 +366,12 @@ bot.onText(/\/taglist/, (msg, match) => {
 
 });
 
+bot.onText(/\/random/, (msg, match) => {
+	const chatId = msg.chat.id;
+
+	// get a random post from r/dankmemes top of the day
+	var post = scrapeSubreddit()[Math.floor(Math.random()*100)];
+
+	bot.sendMessage(chatId, post.text);
+	bot.sendPhoto(chatId, post.link);
+})
