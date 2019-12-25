@@ -45,7 +45,7 @@ async function scrapeSubreddit() {
 	var subreddit = await r.getSubreddit("dankmemes");
 	var topPosts = await subreddit.getTop({time: "day", limit: 100});
 	
-``	let data = [];
+``	var data = [];
 
 	topPosts.forEach(post => {
 			
