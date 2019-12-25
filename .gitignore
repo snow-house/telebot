@@ -2,5 +2,4 @@ node_modules
 settoken
 *.sql
 getmeme.js
-snoowraptest.js
 connectaws
