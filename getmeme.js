@@ -24,8 +24,8 @@ async function scrapeSubreddit() {
 				score: post.score
 			})
 	});
-	// console.log(data);
-	return data
+	console.log(data);
+	// return data
 }
 
 // scrapeSubreddit()
