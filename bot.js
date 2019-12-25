@@ -377,15 +377,28 @@ bot.onText(/\/random/, (msg, match) => {
 	const chatId = msg.chat.id;
 	console.log("release the memes");
 
-	snoo.getSubreddit("dankmemes").getTop({time: "day", limit:3})
+	var posts = [];
+	snoo.getSubreddit("dankmemes")
+	.getTop({time: "day", limit:100})
 	.then(res => {
+
 		res.forEach(post => {
-			console.log(post.title);
-			bot.sendMessage(post.title);
+			posts.push({
+				text: post.title,
+				link: post.url
+			})
+			// console.log(post.title);
+			// bot.sendMessage(post.title);
 		})
+		console.log(posts);
+		let postIdx = Math.floor(Math.random()*100);
+		bot.sendMessage(chatId, posts[postIdx].text);
+		bot.sendPhoto(chatId, posts[postIdx].link);
+
 	})
 	.catch(err => {
 		console.log(err);
+		bot.sendMessage(internalError);
 	})
 
 
@@ -394,4 +407,4 @@ bot.onText(/\/random/, (msg, match) => {
 	// console.log(post);
 	// bot.sendMessage(chatId, "post.text");
 	// bot.sendPhoto(chatId, post.link);
-})
+});
