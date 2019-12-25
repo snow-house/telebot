@@ -368,10 +368,11 @@ bot.onText(/\/taglist/, (msg, match) => {
 
 bot.onText(/\/random/, (msg, match) => {
 	const chatId = msg.chat.id;
+	console.log("release the memes");
 
 	// get a random post from r/dankmemes top of the day
 	var post = scrapeSubreddit()[Math.floor(Math.random()*100)];
-
+	console.log(post);
 	bot.sendMessage(chatId, post.text);
 	bot.sendPhoto(chatId, post.link);
 })
