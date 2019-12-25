@@ -28,5 +28,37 @@ async function scrapeSubreddit() {
 	// return data
 }
 
+function test() {
+	
+	const r = new snoowrap({
+			userAgent : "fatt",
+			clientId : process.env.REDDITCLIENTID,
+			clientSecret : process.env.REDDITCLIENTSECRET,
+			refreshToken : process.env.REDDITREFRESHTOKEN
+	});
+
+	var posts = [];
+	r.getSubreddit("dankmemes")
+	.getTop({
+		time: "day",
+		limit: 10
+	})
+	.then(res => {
+		res.forEach(post => {
+			posts.push({
+				title: post.title,
+				link : post.url
+			})
+		})
+		console.log(posts)
+	})
+	.catch(err => {
+		console.log(err)
+	})
+
+}
+
+
 // scrapeSubreddit()
 module.exports.scrapeSubreddit = scrapeSubreddit;
+module.exports.test = test;
