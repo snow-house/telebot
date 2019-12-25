@@ -33,30 +33,37 @@ const dbConn = new mysql.createConnection({
 
 dbConn.connect();
 
-async function scrapeSubreddit() {
+// async function scrapeSubreddit() {
 
-	const r = new snoowrap({
-			userAgent : "fatt",
-			clientId : REDDITCLIENTID,
-			clientSecret : REDDITCLIENTSECRET,
-			refreshToken : REDDITREFRESHTOKEN
-	});
+// 	const r = new snoowrap({
+// 			userAgent : "fatt",
+// 			clientId : REDDITCLIENTID,
+// 			clientSecret : REDDITCLIENTSECRET,
+// 			refreshToken : REDDITREFRESHTOKEN
+// 	});
 	
-	var subreddit = await r.getSubreddit("dankmemes");
-	var topPosts = await subreddit.getTop({time: "day", limit: 100});
+// 	var subreddit = await r.getSubreddit("dankmemes");
+// 	var topPosts = await subreddit.getTop({time: "day", limit: 100});
 	
-	var data = [];
+// 	var data = [];
 
-	topPosts.forEach(post => {
+// 	topPosts.forEach(post => {
 			
-			data.push({
-				text: post.title,
-				link: post.url
-			})
-	});
-	// console.log(data);
-	return data
-}
+// 			data.push({
+// 				text: post.title,
+// 				link: post.url
+// 			})
+// 	});
+// 	// console.log(data);
+// 	return data
+// }
+
+const snoo = new snoowrap({
+		userAgent : "fatt",
+		clientId : REDDITCLIENTID,
+		clientSecret : REDDITCLIENTSECRET,
+		refreshToken : REDDITREFRESHTOKEN
+});
 
 
 
@@ -370,9 +377,21 @@ bot.onText(/\/random/, (msg, match) => {
 	const chatId = msg.chat.id;
 	console.log("release the memes");
 
+	snoo.getSubreddit("dankmemes").getTop({time: "day", limit:100})
+	.then(res => {
+		res.forEach(post => {
+			console.log(post.title);
+			bot.sendMessage(post.title);
+		})
+	})
+	.catch(err => {
+		console.log(err);
+	})
+
+
 	// get a random post from r/dankmemes top of the day
-	var post = scrapeSubreddit()[Math.floor(Math.random()*100)];
-	console.log(post);
-	bot.sendMessage(chatId, post.text);
-	bot.sendPhoto(chatId, post.link);
+	// var post = scrapeSubreddit()[Math.floor(Math.random()*100)];
+	// console.log(post);
+	// bot.sendMessage(chatId, "post.text");
+	// bot.sendPhoto(chatId, post.link);
 })
