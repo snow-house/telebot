@@ -377,7 +377,7 @@ bot.onText(/\/random/, (msg, match) => {
 	const chatId = msg.chat.id;
 	console.log("release the memes");
 
-	snoo.getSubreddit("dankmemes").getTop({time: "day", limit:100})
+	snoo.getSubreddit("dankmemes").getTop({time: "day", limit:3})
 	.then(res => {
 		res.forEach(post => {
 			console.log(post.title);
