@@ -310,10 +310,11 @@ bot.onText(/\/addtag (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const query = match[1].split(" ");
 	const tag_name = query[0];
+	const tag_owner = msg.from.id;
 	const link = query[1];
 
 	if (tag_name && link) {
-		dbConn.query("INSERT INTO tags (tag_name, link) VALUES (?, ?)", [tag_name, link],
+		dbConn.query("INSERT INTO tags (tag_name, link, tag_owner) VALUES (?, ?, ?)", [tag_name, link, tag_owner],
 			(err, results, field) => {
 				if (err) {
 					console.log(err)
