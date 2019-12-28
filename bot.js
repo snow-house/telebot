@@ -333,7 +333,7 @@ bot.onText(/\/addtag (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const query = match[1].split(" ");
 	const tag_name = query[0];
-	const tag_owner = msg.from.id;
+	const tag_owner = msg.from.username;
 	const link = query[1];
 
 	if (tag_name && link) {
