@@ -422,13 +422,36 @@ bot.onText(/\/random/, (msg, match) => {
 	})
 	.catch(err => {
 		console.log(err);
-		bot.sendMessage(internalError);
+		bot.sendMessage(chatId, internalError);
 	})
 
+});
 
-	// get a random post from r/dankmemes top of the day
-	// var post = scrapeSubreddit()[Math.floor(Math.random()*100)];
-	// console.log(post);
-	// bot.sendMessage(chatId, "post.text");
-	// bot.sendPhoto(chatId, post.link);
+bot.onText(/\/r (.*)/, (msg, match) => {
+	const chatId = msg.chat.id;
+	const subreddit = match[1];
+
+	if (subreddit) {
+		var posts = [];
+		snoo.getSubreddit(subreddit)
+		.getHot({limit: 100})
+		.then(res => {
+
+			res.forEach(post => {
+				posts.push({
+					text: post.title,
+					link: post.url
+				})
+			})
+			let postIdx = Math.floor(Math.random()*100);
+			bot.sendMessage(chatId, posts[postIdx].text);
+			bot.sendPhoto(chatId, posts[postIdx].link);
+		})
+		.catch(err => {
+			console.log(err);
+			bot.sendMessage(chatId, internalError);
+		})
+	} else {
+		bot.sendMessage(chatId, "Usage /r [subreddit_name]");
+	}
 });
