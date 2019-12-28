@@ -316,7 +316,7 @@ bot.onText(/\/tagowner (.*)/, (msg, match) => {
 				if (err) {
 					bot.sendMessage(chatId, internalError);
 				} else if (results.length) {
-					bot.sendMessage(chatId, `tag ${tag_name} created by ${results[0].tag_owner}`);
+					bot.sendMessage(chatId, `tag ${tag_name} was created by ${results[0].tag_owner}`);
 				} else {
 					bot.sendMessage(chatId, `tag ${tag_name} not found :(`);
 				}
