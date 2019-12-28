@@ -81,12 +81,14 @@ bot.onText(/\/help/, (msg, match) => {
 	- /whoami , shows who you really are
 	- /cheat [card] [card] [card] [card] , cheat in 24 solver
 	- /tag [tag_name], show tagged image
+	- /tagowner [tag_name], get tag_owner
 	- /addtag [tag_name] [link], tag an image
 	- /taglist, show all tags,
 	- /deletetag [tag_name], delete tag
 	- /showevent [-p || -g], show events, use flag -p to show your private event and -g for global
 	- /addevent [event_name] [event_time], add event
 	- /random , get a random meme from r/dankmemes
+	- /r [subreddit_name], get a post from a subreddit
 	`;
 
 
