@@ -305,6 +305,29 @@ bot.onText(/\/tag (.*)/, (msg, match) => {
 
 });
 
+bot.onText(/\/tagowner (.*)/, (msg, match) => {
+	const chatId = msg.chat.id;
+
+	const tag_name = match[1];
+
+	if(tag_name) {
+		dbConn.query("SELECT * FROM tags WHERE tag_name = ?", tag_name,
+			(err, results, field) => {
+				if (err) {
+					bot.sendMessage(chatId, internalError);
+				} else if (results.length) {
+					bot.sendMessage(chatId, results[0].tag_owner);
+				} else {
+					bot.sendMessage(chatId, `tag ${tag_name} not found :(`);
+				}
+			});
+	} else {
+		bot.sendMessage(chatId, "Usage /tagowner [tag_name]");
+	}
+
+
+});
+
 
 bot.onText(/\/addtag (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
