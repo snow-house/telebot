@@ -33,30 +33,6 @@ const dbConn = new mysql.createConnection({
 
 dbConn.connect();
 
-// async function scrapeSubreddit() {
-
-// 	const r = new snoowrap({
-// 			userAgent : "fatt",
-// 			clientId : REDDITCLIENTID,
-// 			clientSecret : REDDITCLIENTSECRET,
-// 			refreshToken : REDDITREFRESHTOKEN
-// 	});
-	
-// 	var subreddit = await r.getSubreddit("dankmemes");
-// 	var topPosts = await subreddit.getTop({time: "day", limit: 100});
-	
-// 	var data = [];
-
-// 	topPosts.forEach(post => {
-			
-// 			data.push({
-// 				text: post.title,
-// 				link: post.url
-// 			})
-// 	});
-// 	// console.log(data);
-// 	return data
-// }
 
 const snoo = new snoowrap({
 		userAgent : "fatt",
@@ -64,9 +40,6 @@ const snoo = new snoowrap({
 		clientSecret : REDDITCLIENTSECRET,
 		refreshToken : REDDITREFRESHTOKEN
 });
-
-
-
 
 
 
