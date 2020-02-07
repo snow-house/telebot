@@ -440,10 +440,11 @@ bot.onText(/\/ask/, (msg, match)=> {
 	var posts = [];
 
 	snoo.getSubreddit(subreddit)
-	.getHot({limit: 100})
+	.getHot({limit: 1})
 	.then( res => {
-
+		console.log(res)
 		res.forEach(post => {
+			console.lg
 			posts.push({
 				question : post.title,
 				topcomment : post.comments[0]
