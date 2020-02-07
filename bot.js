@@ -430,3 +430,33 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 		bot.sendMessage(chatId, "Usage /r [subreddit_name]");
 	}
 });
+
+// get random question from askreddit and top comment
+bot.onText(/\/ask/, (msg, match)=> {
+
+	const chatId = msg.chat.id;
+	const subreddit = "askreddit";
+
+	var posts = [];
+
+	snoo.getSubreddit(subreddit)
+	.getHot({limit: 100})
+	.then( res => {
+
+		res.forEach(post => {
+			posts.push({
+				question : post.title,
+				topcomment : post.comments[0]
+			})
+		})
+		let postIdx = Math.floor(Math.random()*100);
+		bot.sendMessage(chatId, posts[postIdx].question);
+		bot.sendMessage(chatId, posts[postIdx].topcomment);
+	})
+	.catch(err => {
+		console.log(err);
+		bot.sendMessage(chatId, internalError);
+	})
+
+
+});
