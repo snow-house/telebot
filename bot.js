@@ -450,11 +450,16 @@ bot.onText(/\/ask/, (msg, match)=> {
 			})
 		})
 		let postIdx = Math.floor(Math.random()*100);
+
+		// debug 
+		console.log(`question : ${posts[postIdx].question}`);
+		console.log(`top comment : ${posts[postIdx].topcomment}`);
+
 		bot.sendMessage(chatId, posts[postIdx].question);
 		bot.sendMessage(chatId, posts[postIdx].topcomment);
 	})
 	.catch(err => {
-		console.log(err);
+		console.log(err);e
 		bot.sendMessage(chatId, internalError);
 	})
 
