@@ -442,22 +442,25 @@ bot.onText(/\/ask/, (msg, match)=> {
 	snoo.getSubreddit(subreddit)
 	.getHot({limit: 1})
 	.then( res => {
-		console.log(res)
-		res.forEach(post => {
-			console.lg
-			posts.push({
-				question : post.title,
-				topcomment : post.comments[0]
-			})
-		})
-		let postIdx = Math.floor(Math.random()*100);
+		bot.sendMessage(chatId, "coming soon");
+		console.log(`question : ${res.title}`);
+		console.log(`replies : ${res.expandReplies()}`);
 
-		// debug 
-		console.log(`question : ${posts[postIdx].question}`);
-		console.log(`top comment : ${posts[postIdx].topcomment}`);
+		// res.forEach(post => {
+		// 	console.lg
+		// 	posts.push({
+		// 		question : post.title,
+		// 		topcomment : post.comments[0]
+		// 	})
+		// })
+		// let postIdx = Math.floor(Math.random()*100);
 
-		bot.sendMessage(chatId, posts[postIdx].question);
-		bot.sendMessage(chatId, posts[postIdx].topcomment);
+		// // debug 
+		// console.log(`question : ${posts[postIdx].question}`);
+		// console.log(`top comment : ${posts[postIdx].topcomment}`);
+
+		// bot.sendMessage(chatId, posts[postIdx].question);
+		// bot.sendMessage(chatId, posts[postIdx].topcomment);
 	})
 	.catch(err => {
 		console.log(err);e
