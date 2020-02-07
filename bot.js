@@ -443,8 +443,7 @@ bot.onText(/\/ask/, (msg, match)=> {
 	.getHot({limit: 1})
 	.then( res => {
 		bot.sendMessage(chatId, "coming soon");
-		console.log(`question : ${res.title}`);
-		console.log(`replies : ${res.expandReplies()}`);
+		console.log(res)
 
 		// res.forEach(post => {
 		// 	console.lg
