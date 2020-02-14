@@ -412,6 +412,7 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 	} else {
 		const subreddit = match[1];
 	}
+	console.log(subreddit);
 
 	if (subreddit) {
 		var posts = [];
