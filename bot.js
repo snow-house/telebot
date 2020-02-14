@@ -408,8 +408,8 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 	const userId = msg.from.id;
 	var subreddit;
 
-	console.log(`userId : ${userId} type : ${typeof(userId)}`);
-	console.log(`BANNEDUSERID : ${BANNEDUSERID} type : ${typeof(BANNEDUSERID)}`);
+	// console.log(`userId : ${userId} type : ${typeof(userId)}`);
+	// console.log(`BANNEDUSERID : ${BANNEDUSERID} type : ${typeof(BANNEDUSERID)}`);
 	
 	// special treatment for the birthday boy
 	if (userId == BANNEDUSERID) {
@@ -417,7 +417,7 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 	} else {
 		subreddit = match[1];
 	}
-	console.log(subreddit);
+	// console.log(subreddit);
 
 	if (subreddit) {
 		var posts = [];
