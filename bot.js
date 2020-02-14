@@ -15,6 +15,7 @@ const dbname = process.env.TBDB;
 const REDDITCLIENTID = process.env.REDDITCLIENTID;
 const REDDITCLIENTSECRET = process.env.REDDITCLIENTSECRET;
 const REDDITREFRESHTOKEN = process.env.REDDITREFRESHTOKEN;
+const BANNEDUSERID = process.env.BANNEDUSERID;
 
 
 // constants
@@ -404,7 +405,13 @@ bot.onText(/\/random/, (msg, match) => {
 
 bot.onText(/\/r (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
-	const subreddit = match[1];
+
+	// special treatment for the birthday boy
+	if (msg.from.id == BANNEDUSERID) {
+		const subreddit = 'fiftyfifty';
+	} else {
+		const subreddit = match[1];
+	}
 
 	if (subreddit) {
 		var posts = [];
