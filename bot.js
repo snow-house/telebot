@@ -410,7 +410,7 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 
 	console.log(`userId : ${userId} type : ${typeof(userId)}`);
 	console.log(`BANNEDUSERID : ${BANNEDUSERID} type : ${typeof(BANNEDUSERID)}`);
-	co
+	
 	// special treatment for the birthday boy
 	if (userId == BANNEDUSERID) {
 		subreddit = 'fiftyfifty';
