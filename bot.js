@@ -406,13 +406,14 @@ bot.onText(/\/random/, (msg, match) => {
 bot.onText(/\/r (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const userId = msg.from.id;
+	var subreddit;
 
 	console.log(userId);
 	// special treatment for the birthday boy
 	if (userId == BANNEDUSERID) {
-		const subreddit = 'fiftyfifty';
+		subreddit = 'fiftyfifty';
 	} else {
-		const subreddit = match[1];
+		subreddit = match[1];
 	}
 	console.log(subreddit);
 
