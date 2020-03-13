@@ -110,7 +110,7 @@ bot.onText(/\/nim (.*)/, (msg, match) => {
 
 	// console.log(`someone wants to findout who is ${match[1]}`);
 
-	axios.get(`http://aryuuu.ninja:6969/get/nim/${match[1]}`)
+	axios.get(`localhost:6969/get/nim/${match[1]}`)
 	.then((res) => {
 		if (res.data.count === 0) {
 			resp = res.data.message;
