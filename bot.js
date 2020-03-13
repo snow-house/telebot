@@ -150,7 +150,7 @@ bot.onText(/\/cheat (.*)/, (msg, match) => {
 
 	var nums = match[1].split(' ');
 	// console.log(nums);
-	axios.get(`http://aryuuu.ninja:6969/24solver/${nums[0]}/${nums[1]}/${nums[2]}/${nums[3]}`)
+	axios.get(`localhost:6969/24solver/${nums[0]}/${nums[1]}/${nums[2]}/${nums[3]}`)
 	.then((res) => {
 		let d = res.data;
 		resp += `${d.message}\n`;
