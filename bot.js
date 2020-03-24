@@ -472,23 +472,39 @@ bot.onText(/\/ask/, (msg, match)=> {
 	snoo.getSubreddit(subreddit)
 	.getHot({limit: 1})
 	.then( res => {
-		bot.sendMessage(chatId, "coming soon");
-		console.log(res)
-
-		// res.forEach(post => {
-		// 	console.lg
-		// 	posts.push({
-		// 		question : post.title,
-		// 		topcomment : post.comments[0]
-		// 	})
+		// bot.sendMessage(chatId, "coming soon");
+		// console.log(res)
+		
+		// res.comments.fetchAll()
+		// .then(com => {
+		// 	console.log(com)
 		// })
-		// let postIdx = Math.floor(Math.random()*100);
+		
+		res.forEach(post => {
+			console.lg
+			posts.push({
+				question : post.title,
+				comments: post.comments
+			})
+		})
+		let postIdx = Math.floor(Math.random()*100);
 
-		// // debug 
-		// console.log(`question : ${posts[postIdx].question}`);
+		// debug 
+		console.log(`question : ${posts[postIdx].question}`);
 		// console.log(`top comment : ${posts[postIdx].topcomment}`);
-
-		// bot.sendMessage(chatId, posts[postIdx].question);
+		
+		bot.sendMessage(chatId, posts[postIdx].question);
+		posts[postIdx].comments.fetchMore({
+			amount:2,
+			sort: 'top'
+		})
+		.then(ext => {
+			console.log("fetching comments");
+			ext.forEach(com => {
+				bot.sendMessage(chatId, com.body);
+			})
+		})
+		// snoo.getComment()
 		// bot.sendMessage(chatId, posts[postIdx].topcomment);
 	})
 	.catch(err => {
