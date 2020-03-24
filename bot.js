@@ -383,6 +383,7 @@ bot.onText(/\/random/, (msg, match) => {
 	.then(res => {
 
 		res.forEach(post => {
+			console.log(post);
 			posts.push({
 				text: post.title,
 				link: post.url
@@ -481,3 +482,7 @@ bot.onText(/\/ask/, (msg, match)=> {
 
 
 });
+
+bot.onText(/\/rv/, (msg, match) => {
+
+})
