@@ -425,7 +425,7 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 	var args = match[1].split(" ");
 	subreddit = args[0];
 	flag = args[1];
-	amount = args[2] || 1;
+	amount = parseInt(args[2]) || 1;
 	
 	// console.log(subreddit);
 
