@@ -481,29 +481,30 @@ bot.onText(/\/ask/, (msg, match)=> {
 		// })
 		
 		res.forEach(post => {
-			console.lg
+			
 			posts.push({
 				question : post.title,
 				comments: post.comments
 			})
-		})
-		let postIdx = Math.floor(Math.random()*100);
-
-		// debug 
-		console.log(`question : ${posts[postIdx].question}`);
-		// console.log(`top comment : ${posts[postIdx].topcomment}`);
-		
-		bot.sendMessage(chatId, posts[postIdx].question);
-		posts[postIdx].comments.fetchMore({
-			amount:2,
-			sort: 'top'
-		})
-		.then(ext => {
-			console.log("fetching comments");
-			ext.forEach(com => {
-				bot.sendMessage(chatId, com.body);
+			
+			let postIdx = Math.floor(Math.random()*100);
+			// debug 
+			console.log(`question : ${posts[postIdx].question}`);
+			// console.log(`top comment : ${posts[postIdx].topcomment}`);
+			
+			bot.sendMessage(chatId, posts[postIdx].question);
+			posts[postIdx].comments.fetchMore({
+				amount:2,
+				sort: 'top'
+			})
+			.then(ext => {
+				console.log("fetching comments");
+				ext.forEach(com => {
+					bot.sendMessage(chatId, com.body);
+				})
 			})
 		})
+		
 		// snoo.getComment()
 		// bot.sendMessage(chatId, posts[postIdx].topcomment);
 	})
