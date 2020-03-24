@@ -411,16 +411,22 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const userId = msg.from.id;
 	var subreddit;
-
+	var flag;
+	var amount;
 	// console.log(`userId : ${userId} type : ${typeof(userId)}`);
 	// console.log(`BANNEDUSERID : ${BANNEDUSERID} type : ${typeof(BANNEDUSERID)}`);
 	
 	// special treatment for the birthday boy
-	if (userId == BANNEDUSERID) {
-		subreddit = 'fiftyfifty';
-	} else {
-		subreddit = match[1];
-	}
+	// if (userId == BANNEDUSERID) {
+	// 	subreddit = 'fiftyfifty';
+	// } else {
+	// 	subreddit = match[1];
+	// }
+	var args = match[1].split(" ");
+	subreddit = args[0];
+	flag = args[1];
+	amount = args[2] || 1;
+	
 	// console.log(subreddit);
 
 	if (subreddit) {
@@ -452,6 +458,18 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 					// bot.sendMessage(chatId, vid_url);
 					bot.sendVideo(chatId, vid_url);
 				}
+			}
+
+			if (flag == "-c" || flag == "--comments") {
+				posts[postIdx].comments.fetchMore({
+					amount: amount,
+					sort: 'top'
+				})
+				.then(ext => {
+					ext.forEach(com => {
+						bot.sendMessage(chatId, com.body);
+					})
+				})
 			}
 		})
 		.catch(err => {
@@ -487,6 +505,7 @@ bot.onText(/\/ask/, (msg, match)=> {
 		let postIdx = Math.floor(Math.random()*100);
 		
 		bot.sendMessage(chatId, `**${posts[postIdx].question}**`, opts);
+		
 		posts[postIdx].comments.fetchMore({
 			amount:2,
 			sort: 'top'
