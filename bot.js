@@ -17,12 +17,6 @@ const REDDITCLIENTSECRET = process.env.REDDITCLIENTSECRET;
 const REDDITREFRESHTOKEN = process.env.REDDITREFRESHTOKEN;
 const BANNEDUSERID = process.env.BANNEDUSERID;
 const opts = {
-	reply_markup: {
-		keyboard: [
-			['FAQ'],
-			['Buy']
-		]
-	},
 	parse_mode: 'Markdown'
 };
 
