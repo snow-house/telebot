@@ -16,7 +16,15 @@ const REDDITCLIENTID = process.env.REDDITCLIENTID;
 const REDDITCLIENTSECRET = process.env.REDDITCLIENTSECRET;
 const REDDITREFRESHTOKEN = process.env.REDDITREFRESHTOKEN;
 const BANNEDUSERID = process.env.BANNEDUSERID;
-
+const opts = {
+	reply_markup: {
+		keyboard: [
+			['FAQ'],
+			['Buy']
+		]
+	},
+	parse_mode: 'Markdown'
+};
 
 // constants
 const internalError = "Something went wrong :("
@@ -484,7 +492,7 @@ bot.onText(/\/ask/, (msg, match)=> {
 
 		let postIdx = Math.floor(Math.random()*100);
 		
-		bot.sendMessage(chatId, `**${posts[postIdx].question}**`);
+		bot.sendMessage(chatId, `**${posts[postIdx].question}**`, opts);
 		posts[postIdx].comments.fetchMore({
 			amount:2,
 			sort: 'top'
@@ -504,7 +512,3 @@ bot.onText(/\/ask/, (msg, match)=> {
 
 
 });
-
-bot.onText(/\/rv/, (msg, match) => {
-
-})
