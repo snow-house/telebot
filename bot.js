@@ -472,13 +472,6 @@ bot.onText(/\/ask/, (msg, match)=> {
 	snoo.getSubreddit(subreddit)
 	.getHot({limit: 100})
 	.then( res => {
-		// bot.sendMessage(chatId, "coming soon");
-		// console.log(res)
-		
-		// res.comments.fetchAll()
-		// .then(com => {
-		// 	console.log(com)
-		// })
 		
 		res.forEach(post => {
 			
@@ -490,8 +483,6 @@ bot.onText(/\/ask/, (msg, match)=> {
 		})
 
 		let postIdx = Math.floor(Math.random()*100);
-		// debug 
-		console.log(`question : ${posts[postIdx].question}`);
 		
 		bot.sendMessage(chatId, posts[postIdx].question);
 		posts[postIdx].comments.fetchMore({
@@ -499,16 +490,12 @@ bot.onText(/\/ask/, (msg, match)=> {
 			sort: 'top'
 		})
 		.then(ext => {
-			console.log("fetching comments");
+		
 			ext.forEach(com => {
-				console.log(`body: ${com.body}`);
-				console.log(`score: ${com.score}`);
 				bot.sendMessage(chatId, com.body);
 			})
 		})
 		
-		// snoo.getComment()
-		// bot.sendMessage(chatId, posts[postIdx].topcomment);
 	})
 	.catch(err => {
 		console.log(err);e
