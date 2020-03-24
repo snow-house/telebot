@@ -484,7 +484,7 @@ bot.onText(/\/ask/, (msg, match)=> {
 
 		let postIdx = Math.floor(Math.random()*100);
 		
-		bot.sendMessage(chatId, posts[postIdx].question);
+		bot.sendMessage(chatId, `**${posts[postIdx].question}**`);
 		posts[postIdx].comments.fetchMore({
 			amount:2,
 			sort: 'top'
