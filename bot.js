@@ -383,10 +383,11 @@ bot.onText(/\/random/, (msg, match) => {
 	.then(res => {
 
 		res.forEach(post => {
-			console.log(post);
+			
 			posts.push({
 				text: post.title,
-				link: post.url
+				link: post.url,
+				is_video: post.is_video
 			})
 			// console.log(post.title);
 			// bot.sendMessage(post.title);
@@ -429,12 +430,27 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 			res.forEach(post => {
 				posts.push({
 					text: post.title,
-					link: post.url
+					link: post.url,
+					is_video: post.is_video,
+					media: post.media
 				})
 			})
 			let postIdx = Math.floor(Math.random()*100);
 			bot.sendMessage(chatId, posts[postIdx].text);
-			bot.sendPhoto(chatId, posts[postIdx].link);
+			if (posts[postIdx].is_video === true) { // check if the post if a gif
+				bot.sendVideo(chatId, posts[postIdx].media.reddit_video.fallback_url);
+			} else {
+				if (posts[postIdx].media === null) { // check if the post is a static image
+					bot.sendPhoto(chatId, posts[postIdx].link);
+
+				} else { // send a video post
+					let vid_url = posts[postIdx].media.oembed.html.match(/src=".*" frame/)[0]
+					.replace(`"src=`, '')
+					.replace(`" frame`, '')
+					bot.sendMessage(chatId, vid_url);
+					bot.sendVideo(chatId, vid_url);
+				}
+			}
 		})
 		.catch(err => {
 			console.log(err);
