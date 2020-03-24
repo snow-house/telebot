@@ -445,7 +445,7 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 
 				} else { // send a video post
 					let vid_url = posts[postIdx].media.oembed.html.match(/src=".*" frame/)[0]
-					.replace(`"src=`, '')
+					.replace(`src="`, '')
 					.replace(`" frame`, '')
 					bot.sendMessage(chatId, vid_url);
 					bot.sendVideo(chatId, vid_url);
