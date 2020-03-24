@@ -440,7 +440,8 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 					text: post.title,
 					link: post.url,
 					is_video: post.is_video,
-					media: post.media
+					media: post.media,
+					commments: post.comments
 				})
 			})
 			let postIdx = Math.floor(Math.random()*100);
