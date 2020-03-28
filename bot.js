@@ -441,6 +441,7 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 					link: post.url,
 					is_video: post.is_video,
 					media: post.media,
+					desc: post.selftext,
 					comments: post.comments
 				})
 			})
@@ -471,6 +472,8 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 						bot.sendMessage(chatId, com.body);
 					})
 				})
+			} else if (flag == '-d'){
+				bot.sendMessage(chatId, posts[postIdx].desc);
 			}
 		})
 		.catch(err => {
