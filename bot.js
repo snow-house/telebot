@@ -442,7 +442,7 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 					is_video: post.is_video,
 					media: post.media,
 					desc: post.selftext,
-					link_flaire_text: post.link_flaire_text,
+					link_flair_text: post.link_flair_text,
 					comments: post.comments
 				})
 			})
@@ -476,7 +476,7 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 			} else if (flag == '-d') {
 				bot.sendMessage(chatId, posts[postIdx].desc);
 			} else if (flag == "-lf") {
-				bot.sendMessage(chatId, posts[postIdx].link_flaire_text);
+				bot.sendMessage(chatId, posts[postIdx].link_flair_text);
 			}
 		})
 		.catch(err => {
