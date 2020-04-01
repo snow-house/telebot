@@ -4,6 +4,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const mysql = require('mysql');
+const qs = require('querystring')
 const snoowrap = require('snoowrap');
 
 
@@ -65,6 +66,7 @@ bot.onText(/\/help/, (msg, match) => {
 	- /addevent [event_name] [event_time], add event
 	- /random , get a random meme from r/dankmemes
 	- /r [subreddit_name], get a post from a subreddit
+	- /short [real_link] [custom_link], short a link with a custom link
 	`;
 
 
@@ -531,4 +533,41 @@ bot.onText(/\/ask/, (msg, match)=> {
 	})
 
 
+});
+
+
+bot.onText(/\/short (.*)/, (msg, match) => {
+	const chatId = msg.chat.id;
+	let resp = '';
+	let links = match[1].split(' ');
+	let body;
+	const url = `http://bmusuko.ninja:3000/short/createLink`
+	const config = {
+		headers: {
+		  'Content-Type': 'application/x-www-form-urlencoded'
+		}
+	  }
+	if(links.length == 1 || links.length == 2){
+		if(links.length == 1){
+			body = {
+				real_link: links[0]
+			}
+		} else if(links.length == 2){
+			body ={
+				real_link: links[0],
+				desired_link: links[1]
+			}
+		}
+		axios.post(url,qs.stringify(body),config)
+		.then((response)=>{
+			bot.sendMessage(chatId, response.data.data.generated_link);
+		})
+		.catch((err)=>{
+			bot.sendMessage(chatId, internalError);
+			console.log(err);
+		})
+	} else{
+		bot.sendMessage(chatId, internalError);
+		
+	}
 });
