@@ -418,16 +418,14 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 	// console.log(`userId : ${userId} type : ${typeof(userId)}`);
 	// console.log(`BANNEDUSERID : ${BANNEDUSERID} type : ${typeof(BANNEDUSERID)}`);
 	
-	// special treatment for the birthday boy
-	// if (userId == BANNEDUSERID) {
-	// 	subreddit = 'fiftyfifty';
-	// } else {
-	// 	subreddit = match[1];
-	// }
 	var args = match[1].split(" ");
 	subreddit = args[0];
 	flag = args[1];
 	amount = parseInt(args[2]) || 1;
+	// special treatment for the birthday boy
+	if (userId == BANNEDUSERID) {
+		subreddit = 'fiftyfifty';
+	}
 	
 	// console.log(subreddit);
 
