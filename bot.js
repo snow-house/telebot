@@ -283,7 +283,7 @@ bot.onText(/\/tag (.*)/, (msg, match) => {
 	}
 });
 
-bon.onText(/#([^#])+#/, (msg, match) => {
+bot.onText(/#([^#])+#/, (msg, match) => {
 	const chatId = msg.chat.id;
 	
 	match.forEach(m => {
