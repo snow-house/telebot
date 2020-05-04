@@ -287,6 +287,7 @@ bot.onText(/#([^#])+#/, (msg, match) => {
 	const chatId = msg.chat.id;
 	
 	match.forEach(m => {
+		tag_name = m.replace(/#/g, "");
 		dbConn.query("SELECT * FROM tags WHERE tag_name = ?", m,
 		(err, results, field) => {
 			if (err) {
