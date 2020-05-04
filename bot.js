@@ -486,11 +486,11 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 				})
 				.then(ext => {
 					ext.forEach(com => {
-						bot.sendMessage(chatId, com.body);
+						bot.sendMessage(chatId, `>> ${com.body}`);
 					})
 				})
 			} else if (flag == '-d') {
-				bot.sendMessage(chatId, posts[postIdx].desc);
+				bot.sendMessage(chatId, `>> ${posts[postIdx].desc}`);
 			} else if (flag == "-lf") {
 				bot.sendMessage(chatId, posts[postIdx].link_flair_text);
 			}
@@ -536,7 +536,7 @@ bot.onText(/\/ask/, (msg, match)=> {
 		.then(ext => {
 		
 			ext.forEach(com => {
-				bot.sendMessage(chatId, com.body);
+				bot.sendMessage(chatId, `>> ${com.body}`);
 			})
 		})
 		
