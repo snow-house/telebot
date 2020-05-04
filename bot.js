@@ -285,20 +285,18 @@ bot.onText(/\/tag (.*)/, (msg, match) => {
 
 bot.onText(/#([^#])+#/, (msg, match) => {
 	const chatId = msg.chat.id;
-	
-	match.forEach(m => {
-		tag_name = m.replace(/#/g, "");
-		dbConn.query("SELECT * FROM tags WHERE tag_name = ?", m,
-		(err, results, field) => {
-			if (err) {
-				bot.sendMessage(chatId, internalError);
-			} else if (results.length) {
-				bot.sendPhoto(chatId, results[0].link);
-			} else {
-				bot.sendMessage(chatId, `tag ${m} not found :(`);
-			}
-		});
-	})
+	const tag_name = match[0].replace(/#/g, "");
+
+	dbConn.query("SELECT * FROM tags WHERE tag_name = ?", tag_name,
+	(err, results, field) => {
+		if (err) {
+			bot.sendMessage(chatId, internalError);
+		} else if (results.length) {
+			bot.sendPhoto(chatId, results[0].link);
+		} else {
+			bot.sendMessage(chatId, `tag ${m} not found :(`);
+		}
+	});
 	
 });
 
