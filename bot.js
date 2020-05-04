@@ -281,8 +281,24 @@ bot.onText(/\/tag (.*)/, (msg, match) => {
 	} else {
 		bot.sendMessage(chatId, "Usage: /tag [tag_name]");
 	}
+});
 
-
+bon.onText(/#([^#])+#/, (msg, match) => {
+	const chatId = msg.chat.id;
+	
+	match.forEach(m => {
+		dbConn.query("SELECT * FROM tags WHERE tag_name = ?", m,
+		(err, results, field) => {
+			if (err) {
+				bot.sendMessage(chatId, internalError);
+			} else if (results.length) {
+				bot.sendPhoto(chatId, results[0].link);
+			} else {
+				bot.sendMessage(chatId, `tag ${m} not found :(`);
+			}
+		});
+	})
+	
 });
 
 bot.onText(/\/tagowner (.*)/, (msg, match) => {
