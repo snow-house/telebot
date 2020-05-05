@@ -569,7 +569,8 @@ bot.onText(/\/vvsays (.*)/, (msg, match) => {
 				textData.x,
 				textData.y,
 				{
-					text: textData.text
+					text: textData.text,
+					alignmentX: jimp.HORIZONTAL_ALIGN_CENTER
 				},
 				textData.maxWidth,
 				textData.maxHeight
