@@ -580,6 +580,9 @@ bot.onText(/\/vvsays (.*)/, (msg, match) => {
 			
 		})
 	})
+	.catch(err => {
+		console.log(err);
+	})
 
 });
 
