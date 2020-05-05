@@ -562,7 +562,7 @@ bot.onText(/\/vvsays (.*)/, (msg, match) => {
 
 	jimp.read(vvimg)
 	.then(image => {
-		image.loadFont(jimp.FONT_SANS_32_BLACK)
+		jimp.loadFont(jimp.FONT_SANS_32_BLACK)
 		.then(font => {
 			image.print(
 				font,
