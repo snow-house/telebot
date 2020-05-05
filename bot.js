@@ -6,6 +6,7 @@ const axios = require('axios');
 const mysql = require('mysql');
 const qs = require('querystring')
 const snoowrap = require('snoowrap');
+const jimp = require('jimp');
 
 
 // env
@@ -20,6 +21,7 @@ const BANNEDUSERID = process.env.BANNEDUSERID;
 const opts = {
 	parse_mode: 'Markdown'
 };
+const vvimg = process.env.VVIMG;
 
 // constants
 const internalError = "Something went wrong :("
@@ -545,6 +547,39 @@ bot.onText(/\/ask/, (msg, match)=> {
 		bot.sendMessage(chatId, internalError);
 	})
 
+
+});
+
+bot.onText(/\/vvsays (.*)/, (msg, match) => {
+	const chatId = msg.chat.id;
+	const textData = {
+		text: match[1],
+		maxWidth: 380,
+		maxHeight: 250,
+		x: 178,
+		y: 465
+	};
+
+	jimp.read(vvimg)
+	.then(image => {
+		image.loadFont(jimp.FONT_SANS_32_BLACK)
+		.then(font => {
+			image.print(
+				font,
+				textData.x,
+				textData.y,
+				{
+					text: textData.text
+				},
+				textData.maxWidth,
+				textData.maxHeight
+			)
+			.getBuffer(jimp.MIME_JPEG, (err, buffer) => {
+				bot.sendPhoto(chatId, buffer);
+			})
+			
+		})
+	})
 
 });
 
