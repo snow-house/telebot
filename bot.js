@@ -296,7 +296,7 @@ bot.onText(/#([^#])+#/, (msg, match) => {
 		} else if (results.length) {
 			bot.sendPhoto(chatId, results[0].link);
 		} else {
-			bot.sendMessage(chatId, `tag ${m} not found :(`);
+			bot.sendMessage(chatId, `tag ${tag_name} not found :(`);
 		}
 	});
 	
