@@ -440,9 +440,9 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 	flag = args[1];
 	amount = parseInt(args[2]) || 1;
 	// special treatment for the birthday boy
-	if (userId == BANNEDUSERID) {
-		subreddit = 'fiftyfifty';
-	}
+	// if (userId == BANNEDUSERID) {
+	// 	subreddit = 'fiftyfifty';
+	// }
 	
 	// console.log(subreddit);
 
