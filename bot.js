@@ -21,7 +21,9 @@ const BANNEDUSERID = process.env.BANNEDUSERID;
 const opts = {
 	parse_mode: 'Markdown'
 };
-const vvimg = process.env.VVIMG;
+const vv = process.env.VVIMG;
+const fb = process.env.FBIMG;
+const blank = process.env.BLANK;
 
 // constants
 const internalError = "Something went wrong :("
@@ -47,6 +49,18 @@ const snoo = new snoowrap({
 		refreshToken : REDDITREFRESHTOKEN
 });
 
+
+const vvimg = jimp.read(vv, (err, image) => {
+	if (err) throw err;
+});
+
+const fbimg = jimp.read(fb, (err, image) => {
+	if (err) throw err;
+});
+
+const blimg = jimp.read(blank, (err, image) => {
+	if (err) throw err;
+});
 
 
 // actual features
@@ -560,7 +574,102 @@ bot.onText(/\/vvsays (.*)/, (msg, match) => {
 		y: 465
 	};
 
-	jimp.read(vvimg)
+	var temp = vvimg.clone();
+
+	jimp.loadFont(jimp.FONT_SANS_32_BLACK)
+	.then(font => {
+		temp.print(
+			font,
+			textData.x,
+			textData.y,
+			{
+				text: textData.text,
+				alignmentX: jimp.HORIZONTAL_ALIGN_CENTER,
+				alignmentY: jimp.VERTICAL_ALIGN_MIDDLE
+			},
+			textData.maxWidth,
+			textData.maxHeight
+			)
+			.getBuffer(jimp.MIME_JPEG, (err, buffer) => {
+				bot.sendPhoto(chatId, buffer);
+			})
+	})
+	.catch(err => console.log(err));
+
+
+	// jimp.read(vvimg)
+	// .then(image => {
+	// 	jimp.loadFont(jimp.FONT_SANS_32_BLACK)
+	// 	.then(font => {
+	// 		image.print(
+	// 			font,
+	// 			textData.x,
+	// 			textData.y,
+	// 			{
+	// 				text: textData.text,
+	// 				alignmentX: jimp.HORIZONTAL_ALIGN_CENTER,
+	// 				alignmentY: jimp.VERTICAL_ALIGN_MIDDLE
+	// 			},
+	// 			textData.maxWidth,
+	// 			textData.maxHeight
+	// 		)
+	// 		.getBuffer(jimp.MIME_JPEG, (err, buffer) => {
+	// 			bot.sendPhoto(chatId, buffer);
+	// 		})
+			
+	// 	})
+	// })
+	// .catch(err => {
+	// 	console.log(err);
+	// })
+
+});
+
+bot.onText(/{([^{}])+}/, (msg, match) => {
+	const chatId = msg.chat.id;
+	const textData = {
+		text: match[1].substring(1,match[1].length,
+		maxWidth: 380,
+		maxHeight: 250,
+		x: 178,
+		y: 465
+	};
+
+	var temp = vvimg.clone();
+
+	jimp.loadFont(jimp.FONT_SANS_32_BLACK)
+	.then(font => {
+		temp.print(
+			font,
+			textData.x,
+			textData.y,
+			{
+				text: textData.text,
+				alignmentX: jimp.HORIZONTAL_ALIGN_CENTER,
+				alignmentY: jimp.VERTICAL_ALIGN_MIDDLE
+			},
+			textData.maxWidth,
+			textData.maxHeight
+			)
+			.getBuffer(jimp.MIME_JPEG, (err, buffer) => {
+				bot.sendPhoto(chatId, buffer);
+			})
+	})
+	.catch(err => console.log(err));
+
+});
+
+bot.onText(/<([^<>])+>/, (msg, match) => {
+	const chatId = msg.chat.id;
+	const textData = {
+		text: match[1].,
+		maxWidth: 380,
+		maxHeight: 250,
+		x: 178,
+		y: 465
+	};
+
+	jimp.read(fbimg)
 	.then(image => {
 		jimp.loadFont(jimp.FONT_SANS_32_BLACK)
 		.then(font => {
