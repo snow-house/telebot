@@ -628,7 +628,7 @@ bot.onText(/\/vvsays (.*)/, (msg, match) => {
 bot.onText(/{([^{}])+}/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const textData = {
-		text: match[1].substring(1,match[1].length,
+		text: match[0].substring(1,match[1].length),
 		maxWidth: 380,
 		maxHeight: 250,
 		x: 178,
