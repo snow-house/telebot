@@ -120,7 +120,7 @@ bot.onText(/\/nim (.*)/, (msg, match) => {
 
 	axios.get(`http://127.0.0.1:6969/get/nim/${match[1]}`)
 	.then((res) => {
-		if (res.status === 2204) {
+		if (res.status == 204) {
 			resp = "nothing found";
 		} else {
 			for (let i = 0; i < 10 && i < res.data.count; i++) {
