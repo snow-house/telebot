@@ -74,7 +74,6 @@ bot.onText(/\/fuck (.*)/, (msg, match) => {
 	const resp = respList[Math.floor(Math.random()*(respList.length))];
 
 	bot.sendMessage(chatId, resp);
-	bot.sendMessage(chatId, "someone just cursed");
 	bot.sendMessage(ADMIN_ID, "someone just cursed");
 });
 
@@ -84,6 +83,7 @@ bot.onText(/\/echo (.*)/, (msg, match) => {
 	const resp = match[1];
 
 	bot.sendMessage(chatId, resp);
+	bot.sendMessage(chatId, chatId);
 });
 	
 
