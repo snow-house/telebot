@@ -6,7 +6,7 @@ const snoowrap = require('snoowrap');
 const config = require('./config');
 const handler = require('./handlers');
 
-const bot = new TelegramBot(token, {polling: true});
+const bot = new TelegramBot(config.BOT_TOKEN, {polling: true});
 
 const dbConn = new mysql.createConnection({
 	host: config.DB_HOST,
