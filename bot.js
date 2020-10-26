@@ -531,7 +531,7 @@ bot.onText(/\/ask/, async (msg, match)=> {
 		})
 	})
 	.catch(err => {
-		console.log(err);e
+		console.log(err);
 		bot.sendMessage(chatId, internalError);
 	})
 });
