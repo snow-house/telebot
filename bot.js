@@ -74,18 +74,15 @@ bot.onText(/\/fuck (.*)/, (msg, match) => {
 	const resp = respList[Math.floor(Math.random()*(respList.length))];
 
 	bot.sendMessage(chatId, resp);
-	bot.sendMessage(ADMIN_ID, "someone just cursed");
 });
-
 
 bot.onText(/\/echo (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const resp = match[1];
+	const messageID = msg.message_id;
 
-	bot.sendMessage(chatId, resp);
-	bot.sendMessage(chatId, chatId);
+	bot.sendMessage(chatId, resp, { reply_to_message_id: messageID });
 });
-	
 
 bot.onText(/\/whoami/, (msg, match) => {
 	const chatId = msg.chat.id;
@@ -126,11 +123,7 @@ bot.onText(/\/nim (.*)/, (msg, match) => {
 	.catch((err) => {
 		bot.sendMessage(chatId, internalError);
 	});
-
-	
-
 });
-
 
 bot.onText(/\/cheat (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
@@ -150,7 +143,6 @@ bot.onText(/\/cheat (.*)/, (msg, match) => {
 		bot.sendMessage(chatId, internalError);
 	})
 });
-
 
 bot.onText(/\/showevent (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
@@ -191,7 +183,6 @@ bot.onText(/\/showevent (.*)/, (msg, match) => {
 	}
 });
 
-
 bot.onText(/\/addevent (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const datetimere = /\d{4}(-\d\d){2} \d\d(:\d\d){2}/;
@@ -225,9 +216,6 @@ bot.onText(/\/addevent (.*)/, (msg, match) => {
 			});
 	}
 });
-
-
-
 
 bot.onText(/\/tag (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
@@ -286,7 +274,6 @@ bot.onText(/\/tagowner (.*)/, (msg, match) => {
 	}
 });
 
-
 bot.onText(/\/addtag (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const query = match[1].split(" ");
@@ -309,7 +296,6 @@ bot.onText(/\/addtag (.*)/, (msg, match) => {
 	}
 });
 
-
 bot.onText(/\/deletetag (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 
@@ -327,7 +313,6 @@ bot.onText(/\/deletetag (.*)/, (msg, match) => {
 			);
 	}
 });
-
 
 bot.onText(/\/taglist/, (msg, match) => {
 	const chatId = msg.chat.id;
@@ -591,7 +576,6 @@ bot.onText(/<([^<>])+>/, (msg, match) => {
 
 });
 
-
 bot.onText(/\/short (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	let resp = '';
@@ -629,7 +613,6 @@ bot.onText(/\/short (.*)/, (msg, match) => {
 });
 
 // inline query handler
-// bot.answerInlineQuery
 bot.on('inline_query', (query) => {
 	bot.sendMessage(ADMIN_ID, "inline test");
 	bot.answerInlineQuery('dummy', ['a', 'b', query]);
