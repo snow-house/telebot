@@ -17,6 +17,7 @@ const REDDITCLIENTID = process.env.REDDITCLIENTID;
 const REDDITCLIENTSECRET = process.env.REDDITCLIENTSECRET;
 const REDDITREFRESHTOKEN = process.env.REDDITREFRESHTOKEN;
 const BANNEDUSERID = process.env.BANNEDUSERID;
+const ADMIN_ID = process.env.ADMIN_ID;
 const opts = {
 	parse_mode: 'Markdown'
 };
@@ -628,5 +629,6 @@ bot.onText(/\/short (.*)/, (msg, match) => {
 // inline query handler
 // bot.answerInlineQuery
 bot.on('inline_query', (query) => {
+	bot.sendMessage(ADMIN_ID, "inline test");
 	bot.answerInlineQuery('dummy', ['a', 'b', query]);
 });
