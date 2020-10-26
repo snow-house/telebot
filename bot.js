@@ -70,33 +70,42 @@ bot.onText(/\/help/, (msg, match) => {
 
 bot.onText(/\/fuck (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
+	const messageId = msg.message_id;
 	var respList = ['I know right', `yeah, fuck ${match[1]}`, 'damn right']
 	const resp = respList[Math.floor(Math.random()*(respList.length))];
 
-	bot.sendMessage(chatId, resp);
+	bot.sendMessage(chatId, resp, { 
+		reply_to_message_id: messageId 
+	});
 });
 
 bot.onText(/\/echo (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const resp = match[1];
-	const messageID = msg.message_id;
+	const messageId = msg.message_id;
 
-	bot.sendMessage(chatId, resp, { reply_to_message_id: messageID });
+	bot.sendMessage(chatId, resp, { 
+		reply_to_message_id: messageId 
+	});
 });
 
 bot.onText(/\/whoami/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const userId = msg.from.id;
+	const messageId = msg.message_id;
 	const username = msg.from.username;
 	const firstname = msg.from.first_name;
 
 	const resp = `you are user ${userId} @${username} or should i call you ${firstname}`;
 
-	bot.sendMessage(chatId, resp);
+	bot.sendMessage(chatId, resp, { 
+		reply_to_message_id: messageId 
+	});
 });
 
 bot.onText(/\/nim (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
+	const messageId = msg.message_id;
 	var resp = '';
 
 	axios.get(`https://api.nim.aryuuu.ninja/get/nim/${match[1]}`)
@@ -118,15 +127,20 @@ bot.onText(/\/nim (.*)/, (msg, match) => {
 		if (res.data.count > 10 || res.data.count === 0) {
 			resp += `\nto show more use /nim -a [query]`;
 		}
-		bot.sendMessage(chatId, resp);
+		bot.sendMessage(chatId, resp, { 
+			reply_to_message_id: messageId 
+		});
 	})
 	.catch((err) => {
-		bot.sendMessage(chatId, internalError);
+		bot.sendMessage(chatId, internalError, { 
+			reply_to_message_id: messageId 
+		});
 	});
 });
 
 bot.onText(/\/cheat (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
+	const messageId = msg.message_id;
 	var resp = '';
 
 	var nums = match[1].split(' ');
@@ -136,11 +150,15 @@ bot.onText(/\/cheat (.*)/, (msg, match) => {
 		resp += `${d.message}\n`;
 		resp += `${d.count === 0?'':d.data[0]}`;
 
-		bot.sendMessage(chatId, resp);
+		bot.sendMessage(chatId, resp, { 
+			reply_to_message_id: messageId 
+		});
 	})
 	.catch((err) => {
 		console.log(err)
-		bot.sendMessage(chatId, internalError);
+		bot.sendMessage(chatId, internalError, { 
+			reply_to_message_id: messageId 
+		});
 	})
 });
 
@@ -219,6 +237,7 @@ bot.onText(/\/addevent (.*)/, (msg, match) => {
 
 bot.onText(/\/tag (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
+	const messageId = msg.message_id;
 	const tag_name = match[1];
 
 	if (tag_name) {
@@ -230,52 +249,73 @@ bot.onText(/\/tag (.*)/, (msg, match) => {
 					bot.sendPhoto(chatId, results[0].link);
 					
 				} else {
-					bot.sendMessage(chatId,`tag '${tag_name}' not found :(`);
+					bot.sendMessage(chatId,`tag '${tag_name}' not found :(`, { 
+						reply_to_message_id: messageId 
+					});
 				}
 		});
 	} else {
-		bot.sendMessage(chatId, "Usage: /tag [tag_name]");
+		bot.sendMessage(chatId, "Usage: /tag [tag_name]", { 
+			reply_to_message_id: messageId 
+		});
 	}
 });
 
 bot.onText(/#([^#])+#/, (msg, match) => {
 	const chatId = msg.chat.id;
+	const messageId = msg.message_id;
 	const tag_name = match[0].replace(/#/g, "");
 
 	dbConn.query("SELECT * FROM tags WHERE tag_name = ?", tag_name,
 	(err, results, field) => {
 		if (err) {
-			bot.sendMessage(chatId, internalError);
+			bot.sendMessage(chatId, internalError, { 
+				reply_to_message_id: messageId 
+			});
 		} else if (results.length) {
-			bot.sendPhoto(chatId, results[0].link);
+			bot.sendPhoto(chatId, results[0].link, { 
+				reply_to_message_id: messageId 
+			});
 		} else {
-			bot.sendMessage(chatId, `tag ${tag_name} not found :(`);
+			bot.sendMessage(chatId, `tag ${tag_name} not found :(`, { 
+				reply_to_message_id: messageId 
+			});
 		}
 	});
 });
 
 bot.onText(/\/tagowner (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
+	const messageId = msg.message_id;
 	const tag_name = match[1];
 
 	if(tag_name) {
 		dbConn.query("SELECT * FROM tags WHERE tag_name = ?", tag_name,
 			(err, results, field) => {
 				if (err) {
-					bot.sendMessage(chatId, internalError);
+					bot.sendMessage(chatId, internalError, { 
+						reply_to_message_id: messageId 
+					});
 				} else if (results.length) {
-					bot.sendMessage(chatId, `tag ${tag_name} was created by ${results[0].tag_owner}`);
+					bot.sendMessage(chatId, `tag ${tag_name} was created by ${results[0].tag_owner}`, { 
+						reply_to_message_id: messageId 
+					});
 				} else {
-					bot.sendMessage(chatId, `tag ${tag_name} not found :(`);
+					bot.sendMessage(chatId, `tag ${tag_name} not found :(`, { 
+						reply_to_message_id: messageId 
+					});
 				}
 			});
 	} else {
-		bot.sendMessage(chatId, "Usage /tagowner [tag_name]");
+		bot.sendMessage(chatId, "Usage /tagowner [tag_name]", { 
+			reply_to_message_id: messageId 
+		});
 	}
 });
 
 bot.onText(/\/addtag (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
+	const messageId = msg.message_id;
 	const query = match[1].split(" ");
 	const tag_name = query[0];
 	const tag_owner = msg.from.username;
@@ -292,22 +332,31 @@ bot.onText(/\/addtag (.*)/, (msg, match) => {
 				}
 			});
 	} else {
-		bot.sendMessage(chatId, "Usage: /addtag [tag_name] [link]");
+		bot.sendMessage(chatId, "Usage: /addtag [tag_name] [link]", { 
+			reply_to_message_id: messageId 
+		});
 	}
 });
 
 bot.onText(/\/deletetag (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
+	const messageId = msg.message_id;
 
 	if (!match[1]) {
-		bot.sendMessage(chatId, "Usage: /deletetag [tag_name]");
+		bot.sendMessage(chatId, "Usage: /deletetag [tag_name]", { 
+			reply_to_message_id: messageId 
+		});
 	} else {
 		dbConn.query("DELETE FROM tags WHERE tag_name = ?", match[1],
 			(err, results, field) => {
 				if (err) {
-					bot.sendMessage(chatId, internalError);
+					bot.sendMessage(chatId, internalError, { 
+						reply_to_message_id: messageId 
+					});
 				} else {
-					bot.sendMessage(chatId, `tag '${match[1]}' deleted`);
+					bot.sendMessage(chatId, `tag '${match[1]}' deleted`, { 
+						reply_to_message_id: messageId 
+					});
 				}
 			}
 			);
@@ -316,24 +365,30 @@ bot.onText(/\/deletetag (.*)/, (msg, match) => {
 
 bot.onText(/\/taglist/, (msg, match) => {
 	const chatId = msg.chat.id;
+	const messageId = msg.message_id;
 	var resp = "";
 
 	dbConn.query("SELECT * FROM tags", (err, results, field) => {
 		if (err) {
-			bot.sendMessage(chatId, internalError);
+			bot.sendMessage(chatId, internalError, { 
+				reply_to_message_id: messageId 
+			});
 		} else {
 			results.forEach(r => {
 				resp += `${r.tag_name},`
 			})
 			resp = resp.replace(/,$/, "");
 
-			bot.sendMessage(chatId, resp);
+			bot.sendMessage(chatId, resp, { 
+				reply_to_message_id: messageId 
+			});
 		}
 	});	
 });
 
 bot.onText(/\/random/, (msg, match) => {
 	const chatId = msg.chat.id;
+	const messageId = msg.message_id;
 	var posts = [];
 	snoo.getSubreddit("dankmemes")
 	.getTop({time: "day", limit:100})
@@ -346,18 +401,24 @@ bot.onText(/\/random/, (msg, match) => {
 			})
 		})
 		let postIdx = Math.floor(Math.random()*100);
-		bot.sendMessage(chatId, posts[postIdx].text);
-		bot.sendPhoto(chatId, posts[postIdx].link);
+		// bot.sendMessage(chatId, posts[postIdx].text);
+		bot.sendPhoto(chatId, posts[postIdx].link, { 
+			reply_to_message_id: messageId,
+			caption: posts[postIdx].text
+		});
 	})
 	.catch(err => {
 		console.log(err);
-		bot.sendMessage(chatId, internalError);
+		bot.sendMessage(chatId, internalError, { 
+			reply_to_message_id: messageId 
+		});
 	})
 });
 
 bot.onText(/\/r (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
 	const userId = msg.from.id;
+	const messageId = msg.message_id;
 	var subreddit;
 	var flag;
 	var amount;
@@ -387,19 +448,29 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 				})
 			})
 			let postIdx = Math.floor(Math.random()*100);
-			bot.sendMessage(chatId, posts[postIdx].text);
+			// bot.sendMessage(chatId, posts[postIdx].text);
 			if (posts[postIdx].is_video === true) { // check if the post if a gif
-				bot.sendVideo(chatId, posts[postIdx].media.reddit_video.fallback_url);
+				bot.sendVideo(chatId, posts[postIdx].media.reddit_video.fallback_url, { 
+					reply_to_message_id: messageId,
+					caption: posts[postIdx].text
+				});
 			} else {
 				if (posts[postIdx].media === null) { // check if the post is a static image
-					bot.sendPhoto(chatId, posts[postIdx].link);
+					bot.sendPhoto(chatId, posts[postIdx].link, { 
+						reply_to_message_id: messageId,
+						caption: posts[postIdx].text
+					});
 				} else { // send a video post
 					let vid_url = posts[postIdx].media.oembed.html.match(/src=".*" frame/)[0]
 					.replace(`src="`, '')
 					.replace(`" frame`, '')
-					bot.sendVideo(chatId, vid_url);
+					bot.sendVideo(chatId, vid_url, { 
+						reply_to_message_id: messageId, 
+						caption: posts[postIdx].text
+					});
 				}
 			}
+
 			if (flag == "-c" || flag == "--comments") {
 				posts[postIdx].comments.fetchMore({
 					amount: amount,
@@ -426,8 +497,9 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 });
 
 // get random question from askreddit and top comment
-bot.onText(/\/ask/, (msg, match)=> {
+bot.onText(/\/ask/, async (msg, match)=> {
 	const chatId = msg.chat.id;
+	const messageId = msg.message_id;
 	const subreddit = "askreddit";
 	var posts = [];
 
@@ -442,14 +514,19 @@ bot.onText(/\/ask/, (msg, match)=> {
 		})
 		let postIdx = Math.floor(Math.random()*100);
 		
-		bot.sendMessage(chatId, `**${posts[postIdx].question}**`, opts);
+		const question = await bot.sendMessage(chatId, `**${posts[postIdx].question}**`, { 
+			reply_to_message_id: messageId,
+			parse_mode: string
+		});
 		posts[postIdx].comments.fetchMore({
 			amount:2,
 			sort: 'top'
 		})
 		.then(ext => {
 			ext.forEach(com => {
-				bot.sendMessage(chatId, `>> ${com.body}`);
+				bot.sendMessage(chatId, `>> ${com.body}`, { 
+					reply_to_message_id: question.message_id
+				});
 			})
 		})
 	})
@@ -613,7 +690,10 @@ bot.onText(/\/short (.*)/, (msg, match) => {
 });
 
 // inline query handler
-bot.on('inline_query', (query) => {
-	bot.sendMessage(ADMIN_ID, "inline test");
-	bot.answerInlineQuery('dummy', ['a', 'b', query]);
+bot.on('inline_query', async (query) => {
+	// const inlineResults = [];
+
+	// const res = axios.get()
+
+	bot.answerInlineQuery(query.id, ['a', 'b', query.query]);
 });
