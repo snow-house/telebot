@@ -505,7 +505,7 @@ bot.onText(/\/ask/, async (msg, match)=> {
 
 	snoo.getSubreddit(subreddit)
 	.getHot({limit: 100})
-	.then( res => {
+	.then( async (res) => {
 		res.forEach(post => {
 			posts.push({
 				question : post.title,
