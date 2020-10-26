@@ -8,7 +8,6 @@ const qs = require('querystring')
 const snoowrap = require('snoowrap');
 const jimp = require('jimp');
 
-
 // env
 const token = process.env.TBTOKEN;
 const dbuser = process.env.TBDBUSER;
@@ -28,10 +27,8 @@ const blankimg = process.env.BLANK;
 // constants
 const internalError = "Something went wrong :("
 
-
 // bot and db setup 
 const bot = new TelegramBot(token, {polling: true});
-
 const dbConn = new mysql.createConnection({
 	host: "localhost",
 	user: dbuser,
@@ -41,7 +38,6 @@ const dbConn = new mysql.createConnection({
 
 dbConn.connect();
 
-
 const snoo = new snoowrap({
 		userAgent : "fatt",
 		clientId : REDDITCLIENTID,
@@ -49,12 +45,7 @@ const snoo = new snoowrap({
 		refreshToken : REDDITREFRESHTOKEN
 });
 
-
-
-// actual features
-
 bot.onText(/\/help/, (msg, match) => {
-
 	const chatId = msg.chat.id;
 	const resp = `Help
 	- /nim [query], itb nim finder
@@ -72,10 +63,8 @@ bot.onText(/\/help/, (msg, match) => {
 	- /r [subreddit_name], get a post from a subreddit
 	- /short [real_link] [custom_link], short a link with a custom link
 	`;
-
-
 	bot.sendMessage(chatId, resp);
-
+	
 });
 
 bot.onText(/\/fuck (.*)/, (msg, match) => {
@@ -88,18 +77,14 @@ bot.onText(/\/fuck (.*)/, (msg, match) => {
 
 
 bot.onText(/\/echo (.*)/, (msg, match) => {
-
 	const chatId = msg.chat.id;
 	const resp = match[1];
-	
-	bot.sendMessage(chatId, resp);
 
+	bot.sendMessage(chatId, resp);
 });
 	
 
-
 bot.onText(/\/whoami/, (msg, match) => {
-
 	const chatId = msg.chat.id;
 	const userId = msg.from.id;
 	const username = msg.from.username;
@@ -108,15 +93,11 @@ bot.onText(/\/whoami/, (msg, match) => {
 	const resp = `you are user ${userId} @${username} or should i call you ${firstname}`;
 
 	bot.sendMessage(chatId, resp);
-
 });
 
 bot.onText(/\/nim (.*)/, (msg, match) => {
-
 	const chatId = msg.chat.id;
 	var resp = '';
-
-	// console.log(`someone wants to findout who is ${match[1]}`);
 
 	axios.get(`https://api.nim.aryuuu.ninja/get/nim/${match[1]}`)
 	.then((res) => {
@@ -124,9 +105,7 @@ bot.onText(/\/nim (.*)/, (msg, match) => {
 			resp = "nothing found";
 		} else {
 			for (let i = 0; i < 10 && i < res.data.count; i++) {
-				
 				let data = res.data.data[i];
-
 				let nama = data.nama;
 				let jurusan = data.jurusan;
 				let fakultas = data.fakultas;
@@ -139,11 +118,9 @@ bot.onText(/\/nim (.*)/, (msg, match) => {
 		if (res.data.count > 10 || res.data.count === 0) {
 			resp += `\nto show more use /nim -a [query]`;
 		}
-
 		bot.sendMessage(chatId, resp);
 	})
 	.catch((err) => {
-		console.log(err);
 		bot.sendMessage(chatId, internalError);
 	});
 
@@ -157,7 +134,6 @@ bot.onText(/\/cheat (.*)/, (msg, match) => {
 	var resp = '';
 
 	var nums = match[1].split(' ');
-	// console.log(nums);
 	axios.get(`http://127.0.0.1:6969/24solver/${nums[0]}/${nums[1]}/${nums[2]}/${nums[3]}`)
 	.then((res) => {
 		let d = res.data;
@@ -170,8 +146,6 @@ bot.onText(/\/cheat (.*)/, (msg, match) => {
 		console.log(err)
 		bot.sendMessage(chatId, internalError);
 	})
-
-	
 });
 
 
@@ -180,7 +154,6 @@ bot.onText(/\/showevent (.*)/, (msg, match) => {
 	const event_owner = msg.from.id;
 
 	if (match[1].match(/-p/)) {
-
 		dbConn.query("SELECT * FROM event WHERE event_owner = ?", event_owner, 
 			(err, results, field) => {
 				if (err) {
@@ -191,15 +164,12 @@ bot.onText(/\/showevent (.*)/, (msg, match) => {
 					results.forEach(r => {
 						resp += `${r.event_name} ${r.event_time}\n`;
 					});
-
 					bot.sendMessage(chatId, resp);
 				} else {
 					bot.sendMessage(chatId, "no events found");
 				}
 			});
-
 	} else {
-
 		dbConn.query("SELECT * FROM event WHERE event_owner = ?", "PUBLIC",
 			(err, results, field) => {
 				if (err) {
@@ -210,16 +180,12 @@ bot.onText(/\/showevent (.*)/, (msg, match) => {
 					results.forEach(r => {
 						resp += `${r.event_name} ${r.event_time}\n`;
 					});
-
 					bot.sendMessage(chatId, resp);
 				} else {
 					bot.sendMessage(chatId, "no events found");
 				}
 			});
-
 	}
-
-
 });
 
 
@@ -232,21 +198,15 @@ bot.onText(/\/addevent (.*)/, (msg, match) => {
 
 	// validate event to be input
 	if (match[1].split(" ").length < 3){
-		
 		bot.sendMessage(chatId, "Usage: /addevent [event_name] [event_time], use flag -p to make it private");
-	
 	} else if (!match[1].match(datetimere)) {	
-		
 		bot.sendMessage(chatId, `event_time format 'YYYY-MM-DD HH:MM:SS'`);
-
 	} else {
 		// check for private flag
 		if (match[1].match(/-p/)) {
 			event_owner = msg.from.id;
 			event_detail = event_detail.replace(/-p/,"").trim()
-
 		}
-	
 		// get event name and time
 		var event_name = event_detail.replace(datetimere, "").trim();
 		var event_time = event_detail.match(datetimere)[0];
@@ -301,12 +261,10 @@ bot.onText(/#([^#])+#/, (msg, match) => {
 			bot.sendMessage(chatId, `tag ${tag_name} not found :(`);
 		}
 	});
-	
 });
 
 bot.onText(/\/tagowner (.*)/, (msg, match) => {
 	const chatId = msg.chat.id;
-
 	const tag_name = match[1];
 
 	if(tag_name) {
@@ -323,8 +281,6 @@ bot.onText(/\/tagowner (.*)/, (msg, match) => {
 	} else {
 		bot.sendMessage(chatId, "Usage /tagowner [tag_name]");
 	}
-
-
 });
 
 
@@ -348,8 +304,6 @@ bot.onText(/\/addtag (.*)/, (msg, match) => {
 	} else {
 		bot.sendMessage(chatId, "Usage: /addtag [tag_name] [link]");
 	}
-
-
 });
 
 
@@ -359,7 +313,6 @@ bot.onText(/\/deletetag (.*)/, (msg, match) => {
 	if (!match[1]) {
 		bot.sendMessage(chatId, "Usage: /deletetag [tag_name]");
 	} else {
-
 		dbConn.query("DELETE FROM tags WHERE tag_name = ?", match[1],
 			(err, results, field) => {
 				if (err) {
@@ -370,12 +323,10 @@ bot.onText(/\/deletetag (.*)/, (msg, match) => {
 			}
 			);
 	}
-
 });
 
 
 bot.onText(/\/taglist/, (msg, match) => {
-
 	const chatId = msg.chat.id;
 	var resp = "";
 
@@ -383,7 +334,6 @@ bot.onText(/\/taglist/, (msg, match) => {
 		if (err) {
 			bot.sendMessage(chatId, internalError);
 		} else {
-
 			results.forEach(r => {
 				resp += `${r.tag_name},`
 			})
@@ -392,40 +342,29 @@ bot.onText(/\/taglist/, (msg, match) => {
 			bot.sendMessage(chatId, resp);
 		}
 	});	
-
-
 });
 
 bot.onText(/\/random/, (msg, match) => {
 	const chatId = msg.chat.id;
-	// console.log("release the memes");
-
 	var posts = [];
 	snoo.getSubreddit("dankmemes")
 	.getTop({time: "day", limit:100})
 	.then(res => {
-
 		res.forEach(post => {
-			
 			posts.push({
 				text: post.title,
 				link: post.url,
 				is_video: post.is_video
 			})
-			// console.log(post.title);
-			// bot.sendMessage(post.title);
 		})
-		// console.log(posts);
 		let postIdx = Math.floor(Math.random()*100);
 		bot.sendMessage(chatId, posts[postIdx].text);
 		bot.sendPhoto(chatId, posts[postIdx].link);
-
 	})
 	.catch(err => {
 		console.log(err);
 		bot.sendMessage(chatId, internalError);
 	})
-
 });
 
 bot.onText(/\/r (.*)/, (msg, match) => {
@@ -434,8 +373,6 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 	var subreddit;
 	var flag;
 	var amount;
-	// console.log(`userId : ${userId} type : ${typeof(userId)}`);
-	// console.log(`BANNEDUSERID : ${BANNEDUSERID} type : ${typeof(BANNEDUSERID)}`);
 	
 	var args = match[1].split(" ");
 	subreddit = args[0];
@@ -445,15 +382,11 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 	// if (userId == BANNEDUSERID) {
 	// 	subreddit = 'fiftyfifty';
 	// }
-	
-	// console.log(subreddit);
-
 	if (subreddit) {
 		var posts = [];
 		snoo.getSubreddit(subreddit)
 		.getHot({limit: 100})
 		.then(res => {
-
 			res.forEach(post => {
 				posts.push({
 					text: post.title,
@@ -472,16 +405,13 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 			} else {
 				if (posts[postIdx].media === null) { // check if the post is a static image
 					bot.sendPhoto(chatId, posts[postIdx].link);
-
 				} else { // send a video post
 					let vid_url = posts[postIdx].media.oembed.html.match(/src=".*" frame/)[0]
 					.replace(`src="`, '')
 					.replace(`" frame`, '')
-					// bot.sendMessage(chatId, vid_url);
 					bot.sendVideo(chatId, vid_url);
 				}
 			}
-
 			if (flag == "-c" || flag == "--comments") {
 				posts[postIdx].comments.fetchMore({
 					amount: amount,
@@ -509,47 +439,36 @@ bot.onText(/\/r (.*)/, (msg, match) => {
 
 // get random question from askreddit and top comment
 bot.onText(/\/ask/, (msg, match)=> {
-
 	const chatId = msg.chat.id;
 	const subreddit = "askreddit";
-
 	var posts = [];
 
 	snoo.getSubreddit(subreddit)
 	.getHot({limit: 100})
 	.then( res => {
-		
 		res.forEach(post => {
-			
 			posts.push({
 				question : post.title,
 				comments: post.comments
 			})
-
 		})
-
 		let postIdx = Math.floor(Math.random()*100);
 		
 		bot.sendMessage(chatId, `**${posts[postIdx].question}**`, opts);
-		
 		posts[postIdx].comments.fetchMore({
 			amount:2,
 			sort: 'top'
 		})
 		.then(ext => {
-		
 			ext.forEach(com => {
 				bot.sendMessage(chatId, `>> ${com.body}`);
 			})
 		})
-		
 	})
 	.catch(err => {
 		console.log(err);e
 		bot.sendMessage(chatId, internalError);
 	})
-
-
 });
 
 bot.onText(/\/vvsays (.*)/, (msg, match) => {
@@ -587,7 +506,6 @@ bot.onText(/\/vvsays (.*)/, (msg, match) => {
 	.catch(err => {
 		console.log(err);
 	})
-
 });
 
 bot.onText(/{([^{}])+}/, (msg, match) => {
@@ -629,7 +547,6 @@ bot.onText(/{([^{}])+}/, (msg, match) => {
 });
 
 bot.onText(/<([^<>])+>/, (msg, match) => {
-
 	const chatId = msg.chat.id;
 	const textData = {
 	    text: match[0].substring(1,match[0].length-1),
@@ -706,4 +623,10 @@ bot.onText(/\/short (.*)/, (msg, match) => {
 		bot.sendMessage(chatId, internalError);
 		
 	}
+});
+
+// inline query handler
+// bot.answerInlineQuery
+bot.on('inline_query', (query) => {
+	bot.answerInlineQuery('dummy', ['a', 'b', query]);
 });
