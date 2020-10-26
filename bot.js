@@ -89,7 +89,7 @@ const echoHandler = (bot) => (msg, match) => {
 	});
 }
 
-bot.onText(/\/echo (.*)/, echoHandler);
+bot.onText(/\/echo (.*)/, echoHandler(bot));
 
 // bot.onText(/\/echo (.*)/, (msg, match) => {
 // 	const chatId = msg.chat.id;
