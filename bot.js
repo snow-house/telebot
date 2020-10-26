@@ -8,6 +8,8 @@ const qs = require('querystring')
 const snoowrap = require('snoowrap');
 const jimp = require('jimp');
 
+const echoHandler = require('./handlers/echo');
+
 // env
 const token = process.env.TBTOKEN;
 const dbuser = process.env.TBDBUSER;
@@ -78,16 +80,6 @@ bot.onText(/\/fuck (.*)/, (msg, match) => {
 		reply_to_message_id: messageId 
 	});
 });
-
-const echoHandler = (bot) => (msg, match) => {
-	const chatId = msg.chat.id;
-	const resp = match[1];
-	const messageId = msg.message_id;
-
-	bot.sendMessage(chatId, resp, { 
-		reply_to_message_id: messageId 
-	});
-}
 
 bot.onText(/\/echo (.*)/, echoHandler(bot));
 
