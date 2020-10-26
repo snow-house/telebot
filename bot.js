@@ -74,6 +74,7 @@ bot.onText(/\/fuck (.*)/, (msg, match) => {
 	const resp = respList[Math.floor(Math.random()*(respList.length))];
 
 	bot.sendMessage(chatId, resp);
+	bot.sendMessage(ADMIN_ID, "someone just swear");
 });
 
 
