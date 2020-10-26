@@ -516,7 +516,7 @@ bot.onText(/\/ask/, async (msg, match)=> {
 		
 		const question = await bot.sendMessage(chatId, `**${posts[postIdx].question}**`, { 
 			reply_to_message_id: messageId,
-			parse_mode: string
+			parse_mode: 'Markdown'
 		});
 		posts[postIdx].comments.fetchMore({
 			amount:2,
