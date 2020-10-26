@@ -17,7 +17,7 @@ const REDDITCLIENTID = process.env.REDDITCLIENTID;
 const REDDITCLIENTSECRET = process.env.REDDITCLIENTSECRET;
 const REDDITREFRESHTOKEN = process.env.REDDITREFRESHTOKEN;
 const BANNEDUSERID = process.env.BANNEDUSERID;
-const ADMIN_ID = process.env.ADMIN_ID;
+const ADMIN_ID = parseInt(process.env.ADMIN_ID);
 const opts = {
 	parse_mode: 'Markdown'
 };
