@@ -79,7 +79,7 @@ bot.onText(/\/fuck (.*)/, (msg, match) => {
 	});
 });
 
-bot.onText(/\/echo (.*)/, (msg, match) => {
+const echoHandler = (bot) => (msg, match) => {
 	const chatId = msg.chat.id;
 	const resp = match[1];
 	const messageId = msg.message_id;
@@ -87,7 +87,19 @@ bot.onText(/\/echo (.*)/, (msg, match) => {
 	bot.sendMessage(chatId, resp, { 
 		reply_to_message_id: messageId 
 	});
-});
+}
+
+bot.onText(/\/echo (.*)/, echoHandler);
+
+// bot.onText(/\/echo (.*)/, (msg, match) => {
+// 	const chatId = msg.chat.id;
+// 	const resp = match[1];
+// 	const messageId = msg.message_id;
+
+// 	bot.sendMessage(chatId, resp, { 
+// 		reply_to_message_id: messageId 
+// 	});
+// });
 
 bot.onText(/\/whoami/, (msg, match) => {
 	const chatId = msg.chat.id;
@@ -694,6 +706,5 @@ bot.on('inline_query', async (query) => {
 	// const inlineResults = [];
 
 	// const res = axios.get()
-
 	bot.answerInlineQuery(query.id, ['a', 'b', query.query]);
 });
