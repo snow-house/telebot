@@ -31,6 +31,7 @@ module.exports = {
       });
     })
     .catch((err) => {
+      console.error(err)
       bot.sendMessage(chatId, internalError, { 
         reply_to_message_id: messageId 
       });
