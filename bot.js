@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const mysql = require('mysql');
@@ -6,7 +8,7 @@ const snoowrap = require('snoowrap');
 const config = require('./config');
 const handler = require('./handlers');
 
-const bot = new TelegramBot(config.BOT_TOKEN, {polling: true});
+const bot = new TelegramBot(process.env.TBTOKEN, {polling: true});
 
 const dbConn = new mysql.createConnection({
 	host: config.DB_HOST,
