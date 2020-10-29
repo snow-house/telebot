@@ -1,13 +1,13 @@
+const config = require('../config');
 const internalError = "Something went wrong :(";
 
 module.exports = {
   nimHandler: (bot, axios) => (msg, match) => {
-    const { ARYUUU_API_URL } = require('../config');
     const chatId = msg.chat.id;
     const messageId = msg.message_id;
     var resp = '';
 
-    axios.get(`${ARYUUU_API_URL}/get/nim/${match[1]}`)
+    axios.get(`${config.ARYUUU_API_URL}/get/nim/${match[1]}`)
     .then((res) => {
       if (res.status == 204) {
         resp = "nothing found";

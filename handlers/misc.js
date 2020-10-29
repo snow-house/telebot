@@ -1,6 +1,7 @@
-const qs = require('querystring')
+const qs = require('querystring');
 
-const internalError = "Something went wrong :("
+const config = require('../config');
+const internalError = "Something went wrong :(";
 
 module.exports = {
   echoHandler: (bot) => (msg, match) => {
@@ -47,13 +48,12 @@ module.exports = {
   },
 
   cheatHandler: (bot, axios) => (msg, match) => {
-    const { ARYUUU_API_URL } = require('../config');
     const chatId = msg.chat.id;
     const messageId = msg.message_id;
     var resp = '';
   
     var nums = match[1].split(' ');
-    axios.get(`${ARYUUU_API_URL}/24solver/${nums[0]}/${nums[1]}/${nums[2]}/${nums[3]}`)
+    axios.get(`${config.ARYUUU_API_URL}/24solver/${nums[0]}/${nums[1]}/${nums[2]}/${nums[3]}`)
     .then((res) => {
       let d = res.data;
       resp += `${d.message}\n`;
