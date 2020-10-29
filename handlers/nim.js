@@ -1,3 +1,4 @@
+const internalError = "Something went wrong :(";
 
 module.exports = {
   nimHandler: (bot, axios) => (msg, match) => {
