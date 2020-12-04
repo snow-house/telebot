@@ -3,3 +3,4 @@ settoken
 *.sql
 connectaws
 test/*
+.env

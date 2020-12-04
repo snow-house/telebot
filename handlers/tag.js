@@ -31,6 +31,11 @@ module.exports = {
     const chatId = msg.chat.id;
     const messageId = msg.message_id;
     const tag_name = match[0].replace(/#/g, "");
+
+    const replyToId = msg.reply_to_message && 
+      msg.reply_to_message.message_id ?
+        msg.reply_to_message.message_id :
+        messageId;
   
     dbConn.query("SELECT * FROM tags WHERE tag_name = ?", tag_name,
     (err, results, field) => {
@@ -40,7 +45,7 @@ module.exports = {
         });
       } else if (results.length) {
         bot.sendPhoto(chatId, results[0].link, { 
-          reply_to_message_id: messageId 
+          reply_to_message_id: replyToId
         });
       } else {
         bot.sendMessage(chatId, `tag ${tag_name} not found :(`, { 
