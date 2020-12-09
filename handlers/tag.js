@@ -105,9 +105,9 @@ module.exports = {
 
     if (tags[ownerId] == null) return;
     
-    bot.sendMessage(chatId, "nice pic dude", {
-      reply_to_message_id: messageId
-    });
+    // bot.sendMessage(chatId, "nice pic dude", {
+    //   reply_to_message_id: messageId
+    // });
 
     const link = await bot.getFileLink(msg.photo[msg.photo.length - 1].file_id);
     const ext = link.split(".").pop();
@@ -175,10 +175,10 @@ module.exports = {
               bot.sendMessage(chatId, `tag '${tags[ownerId]}' created`, {
                 reply_to_message_id: messageId
               });
+              delete tags[ownerId];
             }
           });
           
-        delete tags[ownerId];
         // bot.sendPhoto(chatId, `https://storage.googleapis.com/${process.env.GC_BUCKET}/${fileName}`, {
         //   reply_to_message_id: messageId
         // })
