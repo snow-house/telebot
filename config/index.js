@@ -13,5 +13,9 @@ module.exports = {
   FB_IMG: process.env.FBIMG,
   BLANK_IMG: process.env.BLANK,
   ARYUUU_API_URL: process.env.ARYUUU_API_URL,
-  BMUSUKO_API_URL: process.env.BMUSUKO_API_URL
+  BMUSUKO_API_URL: process.env.BMUSUKO_API_URL,
+  GC_PROJECT_ID: process.env.GC_PROJECT_ID,
+  GC_KEY: process.env.GC_KEY,
+  GC_BUCKET: process.env.GC_BUCKET,
+  
 }
