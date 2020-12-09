@@ -4,3 +4,4 @@ settoken
 connectaws
 test/*
 .env
+keys

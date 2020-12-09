@@ -16,8 +16,14 @@ const dbConn = new mysql.createConnection({
 	password: config.DB_PWD,
 	database: config.DB_NAME
 });
-
 dbConn.connect();
+
+const storage = new Storage({
+  projectId: config.GC_PROJECT_ID,
+  keyFilename: config.GC_KEY
+});
+
+const tagBucket = storage.bucket(config.GC_BUCKET);
 
 const snoo = new snoowrap({
 		userAgent : "fatt",
@@ -25,6 +31,8 @@ const snoo = new snoowrap({
 		clientSecret : config.REDDIT_CLIENT_SECRET,
 		refreshToken : config.REDDIT_REFRESH_TOKEN
 });
+
+const tags = {};
 
 bot.onText(/\/help/, handler.helpHandler(bot));
 bot.onText(/\/fuck (.*)/, handler.fuckHandler(bot));
@@ -41,6 +49,7 @@ bot.onText(/\/tag (.*)/, handler.tagHandler(bot, dbConn));
 bot.onText(/#([^#])+#/, handler.hashTagHandler(bot, dbConn));
 bot.onText(/\/tagowner (.*)/, handler.tagOwnerHandler(bot, dbConn));
 bot.onText(/\/addtag (.*)/, handler.addTagHandler(bot, dbConn));
+bot.onText(/\/addtagf (.*)/, handler.addTagFHandler(bot, tags));
 bot.onText(/\/deletetag (.*)/, handler.deleteTagHandler(bot, dbConn));
 bot.onText(/\/taglist/, handler.tagListHandler(bot, dbConn));
 
@@ -51,6 +60,8 @@ bot.onText(/\/ask/, handler.askRedditHandler(bot, snoo));
 bot.onText(/{([^{}])+}/, handler.vvSaysHandler(bot));
 bot.onText(/<([^<>])+>/, handler.febySaysHandler(bot));
 
+// tag file upload handler
+bot.on('photo', handler.uploadTagFileHandler(bot, tags, tagBucket, dbConn));
 // inline query handler
 bot.on('inline_query', async (query) => {
 	// const inlineResults = [];
