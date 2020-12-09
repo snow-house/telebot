@@ -172,7 +172,7 @@ module.exports = {
                 reply_to_message_id: messageId
               });
             } else {
-              bot.sendMessage(chatId, `tag '${tag_name}' created`, {
+              bot.sendMessage(chatId, `tag '${tags[ownerId]}' created`, {
                 reply_to_message_id: messageId
               });
             }
