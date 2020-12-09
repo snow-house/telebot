@@ -96,7 +96,7 @@ module.exports = {
     });
   },
 
-  uploadTagFileHandler: (bot, tags, bucket, dbConn) => (msg) => {
+  uploadTagFileHandler: (bot, tags, bucket, dbConn) => async (msg) => {
     const chatId = msg.chat.id;
     const messageId = msg.message_id;
     const ownerId = msg.from.id;
