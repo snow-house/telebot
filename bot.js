@@ -4,6 +4,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const mysql = require('mysql');
 const snoowrap = require('snoowrap');
+const { Storage } = require('@google-cloud/storage');
 
 const config = require('./config');
 const handler = require('./handlers');

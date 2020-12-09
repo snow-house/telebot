@@ -1,4 +1,6 @@
-const config = require('../config');
+const request = require('request');
+
+const { GC_BUCKET } = require('../config');
 const internalError = "Something went wrong :(";
 
 module.exports = {
@@ -157,7 +159,7 @@ module.exports = {
       .on('finish', () => {
         file.makePublic();
         
-        const tagLink = `https://storage.googleapis.com/${process.env.GC_BUCKET}/${fileName}`;
+        const tagLink = `https://storage.googleapis.com/${GC_BUCKET}/${fileName}`;
         // bot.sendMessage(chatId, `https://storage.googleapis.com/${process.env.GC_BUCKET}/${fileName}`, {
         //   reply_to_message_id: messageId
         // });
