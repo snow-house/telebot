@@ -119,7 +119,7 @@ module.exports = {
   
     if (tagName && link) {
       try {
-        let isExist = await TagModel.exists({
+        const isExist = await TagModel.exists({
           tag_name: tagName,
           tag_room: chatId,
         });
@@ -164,7 +164,7 @@ module.exports = {
     const query = match[1].split(" ");
     const tagName = query[0];
 
-    const isExist = await TagModel.exists({
+    let isExist = await TagModel.exists({
       tag_name: tagName,
       tag_room: chatId,
     });
