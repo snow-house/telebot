@@ -231,7 +231,7 @@ module.exports = {
         bl((err, data) => {
           const params = {
             ContentType: mimeType,
-            Bucket: config.S3_BUCKET,
+            Bucket: S3_BUCKET,
             Body: data,
             Key: fileName,
             ACL: 'public-read',
