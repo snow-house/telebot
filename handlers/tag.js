@@ -190,7 +190,7 @@ module.exports = {
     });
   },
 
-  uploadTagFileHandler: (bot, tags, bucket) => async (msg) => {
+  uploadTagFileHandler: (bot, tags) => async (msg) => {
     const chatId = msg.chat.id;
     const messageId = msg.message_id;
     const tagOwner = msg.from;

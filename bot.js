@@ -63,7 +63,7 @@ bot.onText(/{([^{}])+}/, handler.vvSaysHandler(bot));
 bot.onText(/<([^<>])+>/, handler.febySaysHandler(bot));
 
 // tag file upload handler
-bot.on('photo', handler.uploadTagFileHandler(bot, tags, tagBucket));
+bot.on('photo', handler.uploadTagFileHandler(bot, tags));
 // inline query handler
 bot.on('inline_query', async (query) => {
 	// const inlineResults = [];
