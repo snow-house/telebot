@@ -1,3 +1,4 @@
+const mongo = require('./mongo');
 module.exports = {
   BOT_TOKEN: process.env.TBTOKEN,
   DB_HOST: process.env.DB_HOST || 'localhost',
@@ -17,4 +18,9 @@ module.exports = {
   GC_PROJECT_ID: process.env.GC_PROJECT_ID,
   GC_KEY: process.env.GC_KEY,
   GC_BUCKET: process.env.GC_BUCKET, 
+  S3_ACCESS_KEY: process.env.S3_ACCESS_KEY,
+  S3_SECRET_KEY: process.env.S3_SECRET_KEY,
+  S3_ENDPOINT: process.env.S3_ENDPOINT,
+  S3_BUCKET: process.env.S3_BUCKET,
+  ...mongo,
 }
