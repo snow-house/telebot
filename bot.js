@@ -3,24 +3,12 @@ require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const mongoose = require('mongoose');
-// const mysql = require('mysql');
-// const snoowrap = require('snoowrap');
-// const { Storage } = require('@google-cloud/storage');
-// const S3 = require('aws-sdk/clients/s3');
+const snoowrap = require('snoowrap');
 
 const config = require('./config');
 const handler = require('./handlers');
 
 const bot = new TelegramBot(process.env.TBTOKEN, {polling: true});
-
-// const dbConn = new mysql.createConnection({
-// 	host: config.DB_HOST,
-// 	user: config.DB_USER,
-// 	password: config.DB_PWD,
-// 	database: config.DB_NAME
-// });
-// dbConn.connect();
-const dbConn = {};
 
 mongoose
 	.connect(
@@ -37,28 +25,13 @@ mongoose
 		console.log(err);
 	});
 
-// const storage = new Storage({
-//   projectId: config.GC_PROJECT_ID,
-//   keyFilename: config.GC_KEY
-// });
+const snoo = new snoowrap({
+		userAgent : "aryuuu",
+		clientId : config.REDDIT_CLIENT_ID,
+		clientSecret : config.REDDIT_CLIENT_SECRET,
+		refreshToken : config.REDDIT_REFRESH_TOKEN
+});
 
-// const tagBucket = storage.bucket(config.GC_BUCKET);
-const tagBucket = {};
-// const snoo = new snoowrap({
-// 		userAgent : "fatt",
-// 		clientId : config.REDDIT_CLIENT_ID,
-// 		clientSecret : config.REDDIT_CLIENT_SECRET,
-// 		refreshToken : config.REDDIT_REFRESH_TOKEN
-// });
-// const s3 = new S3({
-//   accessKeyId: config.S3_ACCESS_KEY,
-//   secretAccessKey: config.S3_SECRET_KEY,
-//   region: 'ap-south-1',
-//   endpoint: config.S3_ENDPOINT,
-//   // s3BucketEndpoint: 'telebot-tag.ap-south-1.linodeobjects.com',
-// });
-
-const snoo = {}
 
 const tags = {};
 
