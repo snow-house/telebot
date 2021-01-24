@@ -268,6 +268,7 @@ module.exports = {
           bot.sendMessage(chatId, `tag ${tags[tagOwner.id]} created`, {
             reply_to_message_id: messageId,
           });
+          delete tags[tagOwner.id];
         } else {
           bot.sendMessage(chatId, internalError, {
             reply_to_message_id: messageId,
