@@ -63,9 +63,9 @@ module.exports = {
                     0,
                     0,
                     {
-                        text: textData.text,
-                        alignmentX: jimp.HORIZONTAL_ALIGN_CENTER,
-                        alignmentY: jimp.VERTICAL_ALIGN_MIDDLE
+                      text: textData.text,
+                      alignmentX: jimp.HORIZONTAL_ALIGN_CENTER,
+                      alignmentY: jimp.VERTICAL_ALIGN_MIDDLE
                     },
                     300,
                     220
