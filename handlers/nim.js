@@ -7,7 +7,7 @@ module.exports = {
     const messageId = msg.message_id;
     var resp = '';
 
-    axios.get(`${config.STUDENT_SERVICE_URL}/${match[1]}`)
+    axios.get(`${config.STUDENT_SERVICE_URL}/?q=${match[1]}`)
     .then((res) => {
       if (res.status == 204) {
         resp = "nothing found";
