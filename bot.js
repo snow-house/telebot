@@ -65,9 +65,4 @@ bot.onText(/<([^<>])+>/, handler.febySaysHandler(bot));
 // tag file upload handler
 bot.on('photo', handler.uploadTagFileHandler(bot, tags));
 // inline query handler
-bot.on('inline_query', async (query) => {
-	// const inlineResults = [];
-
-	// const res = axios.get()
-	bot.answerInlineQuery(query.id, ['a', 'b', query.query]);
-});
+bot.on('inline_query', handler.inlineHandler(bot));

@@ -4,5 +4,6 @@ module.exports = {
   ...require('./reddit'),
   ...require('./tag'),
   ...require('./says'),
-  ...require('./event')
+  ...require('./event'),
+  ...require('./inline'),
 }

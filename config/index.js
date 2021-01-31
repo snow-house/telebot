@@ -13,7 +13,7 @@ module.exports = {
   VV_IMG: process.env.VVIMG,
   FB_IMG: process.env.FBIMG,
   BLANK_IMG: process.env.BLANK,
-  ARYUUU_API_URL: process.env.ARYUUU_API_URL,
+  STUDENT_SERVICE_URL: process.env.STUDENT_SERVICE_URL,
   BMUSUKO_API_URL: process.env.BMUSUKO_API_URL,
   GC_PROJECT_ID: process.env.GC_PROJECT_ID,
   GC_KEY: process.env.GC_KEY,
