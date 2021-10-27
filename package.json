@@ -20,7 +20,7 @@
   "homepage": "https://github.com/aryuuu/telebot#readme",
   "dependencies": {
     "aws-sdk": "^2.831.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "bl": "^4.0.3",
     "dotenv": "^8.2.0",
     "jimp": "^0.10.3",
