@@ -17,4 +17,4 @@ RUN wget -O vvimg.jpg https://telebot-tag.ap-south-1.linodeobjects.com/vvimg.jpg
 RUN npm install
 
 # run
-CMD npm start
+CMD ["npm", "start"]
