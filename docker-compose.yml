@@ -1,6 +1,6 @@
-version: "3.7"
+version: "3.8"
 services:
   bot:
     image: fattfatt/telebot:latest
-    env_file: ./.env
+    env_file: .env
     restart: always

@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package.json ./
 COPY package-lock.json ./
 # copy src
-COPY src ./
+COPY src ./src
 
 # Download pictures 
 RUN wget -O blank.jpg https://telebot-tag.ap-south-1.linodeobjects.com/blank.jpg
