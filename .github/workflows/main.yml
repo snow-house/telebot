@@ -70,6 +70,8 @@ jobs:
             S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }}
             S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}
             S3_BUCKET=${{ secrets.S3_BUCKET }}
+            IMGUR_CLIENT_ID=${{secrets.IMGUR_CLIENT_ID}}
+            IMGUR_API_BASE_URL=${{secrets.IMGUR_API_BASE_URL}}
             EOF
             docker-compose pull
             docker-compose down
