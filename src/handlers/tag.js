@@ -1,5 +1,6 @@
 const request = require('request');
 const bl = require('bl');
+const imgur = require('../repositories/imgur');
 
 const {
   S3_ENDPOINT,
@@ -191,6 +192,37 @@ module.exports = {
   },
 
   uploadTagFileHandler: (bot, tags) => async (msg) => {
+    const chatId = msg.chat.id;
+    const messageId = msg.message_id;
+    const tagOwner = msg.from;
+
+    if (tags[tagOwner.id] == null) return;
+
+    const link = await bot.getFileLink(msg.photo[msg.photo.length - 1].file_id);
+    console.log(link)
+    const tagLink = await imgur.insertImage(link);
+
+    const result = await TagModel.create({
+      tag_name: tags[tagOwner.id],
+      tag_url: tagLink,
+      tag_owner: tagOwner,
+      tag_room: chatId,
+      created_at: Date.now()
+    });
+
+    if (result) {
+      bot.sendMessage(chatId, `tag ${tags[tagOwner.id]} created`, {
+        reply_to_message_id: messageId,
+      });
+      delete tags[tagOwner.id];
+    } else {
+      bot.sendMessage(chatId, internalError, {
+        reply_to_message_id: messageId,
+      })
+    }
+  },
+
+  uploadTagFileHandlerOld: (bot, tags) => async (msg) => {
     const chatId = msg.chat.id;
     const messageId = msg.message_id;
     const tagOwner = msg.from;

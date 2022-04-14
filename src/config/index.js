@@ -15,6 +15,7 @@ module.exports = {
   BLANK_IMG: process.env.BLANK,
   STUDENT_SERVICE_URL: process.env.STUDENT_SERVICE_URL,
   BMUSUKO_API_URL: process.env.BMUSUKO_API_URL,
+  IMGUR_API_BASE_URL: process.env.IMGUR_API_BASE_URL,
   GC_PROJECT_ID: process.env.GC_PROJECT_ID,
   GC_KEY: process.env.GC_KEY,
   GC_BUCKET: process.env.GC_BUCKET, 
@@ -22,5 +23,7 @@ module.exports = {
   S3_SECRET_KEY: process.env.S3_SECRET_KEY,
   S3_ENDPOINT: process.env.S3_ENDPOINT,
   S3_BUCKET: process.env.S3_BUCKET,
+  IMGUR_CLIENT_ID: process.env.IMGUR_CLIENT_ID,
+  IMGUR_CLIENT_SECRET: process.env.IMGUR_CLIENT_SECRET,
   ...mongo,
 }
