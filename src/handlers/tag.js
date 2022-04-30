@@ -6,7 +6,7 @@ const {
   S3_ENDPOINT,
   S3_BUCKET
 } = require('../config');
-const s3 = require('../config/s3');
+// const s3 = require('../config/s3');
 const TagModel = require('../models/tags');
 
 const internalError = "Something went wrong :(";
@@ -222,95 +222,95 @@ module.exports = {
     }
   },
 
-  uploadTagFileHandlerOld: (bot, tags) => async (msg) => {
-    const chatId = msg.chat.id;
-    const messageId = msg.message_id;
-    const tagOwner = msg.from;
+  // uploadTagFileHandlerOld: (bot, tags) => async (msg) => {
+  //   const chatId = msg.chat.id;
+  //   const messageId = msg.message_id;
+  //   const tagOwner = msg.from;
 
-    if (tags[tagOwner.id] == null) return;
+  //   if (tags[tagOwner.id] == null) return;
     
-    const link = await bot.getFileLink(msg.photo[msg.photo.length - 1].file_id);
-    const ext = link.split(".").pop();
-    let mimeType = '';
+  //   const link = await bot.getFileLink(msg.photo[msg.photo.length - 1].file_id);
+  //   const ext = link.split(".").pop();
+  //   let mimeType = '';
     
-    switch (ext) {
-      case 'png':
-        mimeType = 'image/png';
-        break;
-      case 'jpg':
-        mimeType = 'image/jpeg';
-        break;
-      case 'jpeg':
-        mimeType = 'image/jpeg';
-        break;
-      default:
-        break;
-    }
+  //   switch (ext) {
+  //     case 'png':
+  //       mimeType = 'image/png';
+  //       break;
+  //     case 'jpg':
+  //       mimeType = 'image/jpeg';
+  //       break;
+  //     case 'jpeg':
+  //       mimeType = 'image/jpeg';
+  //       break;
+  //     default:
+  //       break;
+  //   }
 
-    const fileName = `${Date.now()}-${tags[tagOwner.id]}.${ext}`;
+  //   const fileName = `${Date.now()}-${tags[tagOwner.id]}.${ext}`;
 
-    const req = request(link);
-    req.pause();
+  //   const req = request(link);
+  //   req.pause();
 
-    req.on('response', res => {
-      if (res.statusCode !== 200) {
-        return bot.sendMessage(chatId, "something went wrong", {
-          reply_to_message_id: messageId
-        });
-      }
+  //   req.on('response', res => {
+  //     if (res.statusCode !== 200) {
+  //       return bot.sendMessage(chatId, "something went wrong", {
+  //         reply_to_message_id: messageId
+  //       });
+  //     }
 
-      req.pipe(
-        bl((err, data) => {
-          const params = {
-            ContentType: mimeType,
-            Bucket: S3_BUCKET,
-            Body: data,
-            Key: fileName,
-            ACL: 'public-read',
-          }
-          s3.putObject(params, (s3err, dat) => {
-            if (s3err) {
-              console.log(s3err);
-              bot.sendMessage(chatId, internalError, {
-                reply_to_message_id: messageId,
-              });
-            } else {
-              console.log(dat);
-            }
-          })
-        })
-      )
-      .on('error', err => {
-        console.log(err)
-        bot.sendMessage(chatId, "something went wrong", {
-          reply_to_message_id: messageId
-        });
-      })
-      .on('finish', async () => {
-        const tagLink = `https://${S3_BUCKET}.${S3_ENDPOINT}/${fileName}`;
-        const result = await TagModel.create({
-          tag_name: tags[tagOwner.id],
-          tag_url: tagLink,
-          tag_owner: tagOwner,
-          tag_room: chatId,
-          created_at: Date.now()
-        });
+  //     req.pipe(
+  //       bl((err, data) => {
+  //         const params = {
+  //           ContentType: mimeType,
+  //           Bucket: S3_BUCKET,
+  //           Body: data,
+  //           Key: fileName,
+  //           ACL: 'public-read',
+  //         }
+  //         s3.putObject(params, (s3err, dat) => {
+  //           if (s3err) {
+  //             console.log(s3err);
+  //             bot.sendMessage(chatId, internalError, {
+  //               reply_to_message_id: messageId,
+  //             });
+  //           } else {
+  //             console.log(dat);
+  //           }
+  //         })
+  //       })
+  //     )
+  //     .on('error', err => {
+  //       console.log(err)
+  //       bot.sendMessage(chatId, "something went wrong", {
+  //         reply_to_message_id: messageId
+  //       });
+  //     })
+  //     .on('finish', async () => {
+  //       const tagLink = `https://${S3_BUCKET}.${S3_ENDPOINT}/${fileName}`;
+  //       const result = await TagModel.create({
+  //         tag_name: tags[tagOwner.id],
+  //         tag_url: tagLink,
+  //         tag_owner: tagOwner,
+  //         tag_room: chatId,
+  //         created_at: Date.now()
+  //       });
 
-        if (result) {
-          bot.sendMessage(chatId, `tag ${tags[tagOwner.id]} created`, {
-            reply_to_message_id: messageId,
-          });
-          delete tags[tagOwner.id];
-        } else {
-          bot.sendMessage(chatId, internalError, {
-            reply_to_message_id: messageId,
-          })
-        }
-      })
-    });
+  //       if (result) {
+  //         bot.sendMessage(chatId, `tag ${tags[tagOwner.id]} created`, {
+  //           reply_to_message_id: messageId,
+  //         });
+  //         delete tags[tagOwner.id];
+  //       } else {
+  //         bot.sendMessage(chatId, internalError, {
+  //           reply_to_message_id: messageId,
+  //         })
+  //       }
+  //     })
+  //   });
 
-    req.resume();
-  },
+  //   req.resume();
+  // },
 
   tagListHandler: (bot) => async (msg, match) => {
     const chatId = msg.chat.id;

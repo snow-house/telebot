@@ -25,12 +25,12 @@ mongoose
 		console.log(err);
 	});
 
-const snoo = new snoowrap({
-		userAgent : "aryuuu",
-		clientId : config.REDDIT_CLIENT_ID,
-		clientSecret : config.REDDIT_CLIENT_SECRET,
-		refreshToken : config.REDDIT_REFRESH_TOKEN
-});
+// const snoo = new snoowrap({
+// 		userAgent : "aryuuu",
+// 		clientId : config.REDDIT_CLIENT_ID,
+// 		clientSecret : config.REDDIT_CLIENT_SECRET,
+// 		refreshToken : config.REDDIT_REFRESH_TOKEN
+// });
 
 const tags = {};
 
@@ -54,9 +54,9 @@ bot.onText(/\/addtagf (.*)/, handler.addTagFHandler(bot, tags));
 bot.onText(/\/deletetag (.*)/, handler.deleteTagHandler(bot));
 bot.onText(/\/taglist/, handler.tagListHandler(bot));
 
-bot.onText(/\/random/, handler.randomHandler(bot, snoo));
-bot.onText(/\/r (.*)/, handler.rHandler(bot, snoo));
-bot.onText(/\/ask/, handler.askRedditHandler(bot, snoo));
+// bot.onText(/\/random/, handler.randomHandler(bot, snoo));
+// bot.onText(/\/r (.*)/, handler.rHandler(bot, snoo));
+// bot.onText(/\/ask/, handler.askRedditHandler(bot, snoo));
 
 bot.onText(/{([^{}])+}/, handler.vvSaysHandler(bot));
 bot.onText(/<([^<>])+>/, handler.febySaysHandler(bot));
